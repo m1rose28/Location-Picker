@@ -3,5 +3,7 @@
 
     <string name="app_name">Location Picker</string>
     <string name="title_activity_maps">Where art thou?</string>
+    <string name="startapp">Welcome</string>
+    <string name="service_name">Notifications Listener</string>
 
 </resources>
