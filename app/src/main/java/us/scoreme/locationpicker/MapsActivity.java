@@ -20,6 +20,7 @@ import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity {
 
+
     public GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     @Override

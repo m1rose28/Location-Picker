@@ -21,11 +21,11 @@ import java.io.IOException;
 
 class httpRequest extends AsyncTask<String, String, String> {
 
-    public interface AsyncResponse {
-        void processFinish(String output);
-    }
+    private httpReply httpReply;
 
-    public AsyncResponse delegate=null;
+    public httpRequest(httpReply httpReply){
+        this.httpReply = httpReply;
+    }
 
     @Override
     protected String doInBackground(String... uri) {
@@ -58,10 +58,9 @@ class httpRequest extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        //Do anything with response..
-        //delegate.processFinish(result);
         Log.e("test",result);
-    }
+        httpReply.updateActivity();
 
+    }
 
 }
