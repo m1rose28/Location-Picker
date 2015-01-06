@@ -40,18 +40,19 @@ public class startActivity extends Activity implements httpReply {
     }
 
     public void startMaps(View view) {
-        // Do something in response to button
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
     public void startSecondActivity(View view) {
-        // Do something in response to button
         Intent intent = new Intent(this, secondActivity.class);
         startActivity(intent);
     }
 
-
+    public void startTonyaActivity(View view) {
+        Intent intent = new Intent(this, tonyaActivity.class);
+        startActivity(intent);
+    }
     public void sendUrl(View view){
         String a="43";
         new httpRequest(this).execute("http://www.scoreme.us/a.php",a,"apple");
