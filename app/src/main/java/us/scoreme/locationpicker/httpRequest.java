@@ -14,11 +14,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-/**
- * Created by markrose on 12/30/14.
- */
-
-
 class httpRequest extends AsyncTask<String, String, String> {
 
     private httpReply httpReply;
@@ -59,7 +54,7 @@ class httpRequest extends AsyncTask<String, String, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         Log.e("test",result);
-        httpReply.updateActivity();
+        httpReply.updateActivity(result);
 
     }
 

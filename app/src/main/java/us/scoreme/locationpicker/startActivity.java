@@ -12,17 +12,13 @@ import android.widget.Toast;
 
 import java.util.GregorianCalendar;
 
-/**
- * Created by markrose on 12/29/14.
- */
-
 public class startActivity extends Activity implements httpReply {
 
     private PendingIntent pendingIntent;
 
     @Override
-    public void updateActivity(){
-        Toast.makeText(this, "thank god!", Toast.LENGTH_SHORT).show();
+    public void updateActivity(String result){
+        Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +45,16 @@ public class startActivity extends Activity implements httpReply {
         startActivity(intent);
     }
 
+    public void startSecondActivity(View view) {
+        // Do something in response to button
+        Intent intent = new Intent(this, secondActivity.class);
+        startActivity(intent);
+    }
+
+
     public void sendUrl(View view){
         String a="43";
-        new httpRequest(this).execute("http://www.scoreme.us/a.html",a,"apple");
+        new httpRequest(this).execute("http://www.scoreme.us/a.php",a,"apple");
     }
 
 }

@@ -4,6 +4,7 @@
     <string name="app_name">Location Picker</string>
     <string name="title_activity_maps">Where art thou?</string>
     <string name="startapp">My Experiments</string>
+    <string name="second_activity">Magic activity #2</string>
     <string name="service_name">Notifications Listener</string>
 
 </resources>

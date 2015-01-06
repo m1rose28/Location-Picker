@@ -27,7 +27,11 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
             android:parentActivityName=".startActivity" >
-
+        </activity>
+        <activity
+            android:name=".secondActivity"
+            android:label="@string/second_activity"
+            android:parentActivityName=".startActivity" >
         </activity>
         <activity
             android:name=".myToast"

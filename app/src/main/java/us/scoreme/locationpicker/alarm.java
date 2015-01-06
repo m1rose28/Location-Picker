@@ -6,10 +6,6 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-/**
- * Created by markrose on 12/31/14.
- */
-
 public class alarm extends BroadcastReceiver {
 
     @Override

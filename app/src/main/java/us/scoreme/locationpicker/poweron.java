@@ -7,9 +7,6 @@ import android.os.BatteryManager;
 import android.util.Log;
 import android.widget.Toast;
 
-/**
- * Created by markrose on 1/2/15.
- */
 public class poweron extends BroadcastReceiver {
 
     @Override

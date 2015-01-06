@@ -18,7 +18,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send Url"
+        android:text="http hit me"
         android:onClick="sendUrl"
         android:id="@+id/button1"
         android:layout_marginTop="120dp"
@@ -32,6 +32,16 @@
         android:onClick="scheduleAlarm"
         android:id="@+id/button2"
         android:layout_marginTop="170dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="second activity"
+        android:onClick="startSecondActivity"
+        android:id="@+id/button3"
+        android:layout_marginTop="220dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
