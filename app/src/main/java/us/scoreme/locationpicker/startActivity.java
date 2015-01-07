@@ -9,9 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-
-import java.util.GregorianCalendar;
-
 public class startActivity extends Activity implements httpReply {
 
     private PendingIntent pendingIntent;
@@ -24,16 +21,16 @@ public class startActivity extends Activity implements httpReply {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_page);
+        startService(new Intent(this,WifiService.class));
     }
 
     public void scheduleAlarm(View V) {
-        Long time = new GregorianCalendar().getTimeInMillis() + 10 * 1000;
         Intent alarmIntent = new Intent(startActivity.this, alarm.class);
         pendingIntent = PendingIntent.getBroadcast(startActivity.this, 0, alarmIntent, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        int interval=1000*60*60*24;
+        int interval=1000*60*15; // every 15 minutes
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
         Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();

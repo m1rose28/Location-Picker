@@ -2,9 +2,6 @@ package us.scoreme.locationpicker;
 
 import java.util.Random;
 
-/**
- * Created by markrose on 12/28/14.
- */
 public class myClass {
     public int doMath(){
         int a=5;
