@@ -7,5 +7,6 @@
     <string name="second_activity">Magic activity #2</string>
     <string name="service_name">Notifications Listener</string>
     <string name="tonya">Tonya</string>
+    <string name="glogin">G+ Sign in</string>
 
 </resources>

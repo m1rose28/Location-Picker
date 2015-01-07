@@ -36,6 +36,10 @@
             android:parentActivityName=".startActivity" >
         </activity>
         <activity
+            android:name=".gloginActivity"
+            android:label="@string/glogin"
+            android:parentActivityName=".startActivity" >
+        </activity><activity
             android:name=".myToast"
             android:theme="@android:style/Theme.NoDisplay">
          </activity>

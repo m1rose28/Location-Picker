@@ -53,6 +53,12 @@ public class startActivity extends Activity implements httpReply {
         Intent intent = new Intent(this, tonyaActivity.class);
         startActivity(intent);
     }
+
+    public void startloginActivity(View view) {
+        Intent intent = new Intent(this, gloginActivity.class);
+        startActivity(intent);
+    }
+
     public void sendUrl(View view){
         String a="43";
         new httpRequest(this).execute("http://www.scoreme.us/a.php",a,"apple");
