@@ -12,29 +12,26 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.net.URLEncoder;
-import java.util.Iterator;
-import java.util.Set;
 
 public class WifiBroadCastReceiver extends BroadcastReceiver {
 
     @Override
-    public void onReceive(Context context, Intent intent2)
+    public void onReceive(Context context, Intent intent)
     {
-        String i=intent2.toString();
-        String e=intent2.getExtras().toString();
+        String i=intent.toString();
         String link="http://www.scoreme.us/a.php?view=1";
 
-        Bundle extras = intent2.getExtras();
-        Set<String> ks = extras.keySet();
-        Iterator<String> iterator = ks.iterator();
-        while (iterator.hasNext()) {
-            Log.e("KEY", iterator.next());
+        Bundle bundle=intent.getExtras();
+
+        for (String key : bundle.keySet()) {
+            Object value = bundle.get(key);
+            Log.e("test", String.format("%s %s (%s)", key, value.toString(), value.getClass().getName()));
+            i=i+":"+key+"->"+value.toString()+":";
         }
 
         Log.e("text", "wifi change detected!" + i);
-        Log.e("text", "details:"+e);
 
-        Toast.makeText(context, "wifi change detected:"+i+e, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "wifi change detected", Toast.LENGTH_SHORT).show();
 
         Intent resultIntent = new Intent(Intent.ACTION_VIEW);
         resultIntent.setData(Uri.parse(link));
@@ -54,14 +51,19 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         mNotificationManager.notify(1, mBuilder.build());
 
-        String url="http://www.scoreme.us/a.php?data=1&event=";
-        Intent myServiceIntent = new Intent(appContext, httpRequest2.class);
-        String data=i+e;
-        String encodedData= URLEncoder.encode(data);
+        //Intent startScan=new Intent(appContext, wifiscan.class);
+        //appContext.startService(startScan);
 
+        String url="http://www.scoreme.us/a.php?data=1&event=";
+        String encodedData= URLEncoder.encode(i);
+
+        Intent myServiceIntent = new Intent(appContext, httpRequest2.class);
         myServiceIntent.putExtra("STRING_I_NEED",encodedData);
         myServiceIntent.putExtra("URL", url);
         appContext.startService(myServiceIntent);
+
+        Log.e("test","ok moving on");
+
 
     }
 

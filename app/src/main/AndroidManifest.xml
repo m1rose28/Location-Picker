@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.RECEIVE_POWER_CONNECTED"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/myicon"
@@ -54,6 +56,8 @@
         </activity>
         <service
             android:name=".httpRequest2"/>
+        <service
+            android:name=".wifiscan"/>
         <receiver android:name=".alarm"/>
         <receiver android:name="poweron" >
             <intent-filter>

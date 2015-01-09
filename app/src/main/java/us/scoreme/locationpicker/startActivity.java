@@ -21,7 +21,7 @@ public class startActivity extends Activity implements httpReply {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_page);
-        startService(new Intent(this,WifiService.class));
+        //startService(new Intent(this,WifiService.class));
     }
 
     public void scheduleAlarm(View V) {
