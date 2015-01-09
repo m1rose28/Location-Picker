@@ -6,14 +6,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.net.URLEncoder;
-import java.util.Iterator;
-import java.util.Set;
 
 public class WifiBroadCastReceiver extends BroadcastReceiver {
 
@@ -24,12 +21,12 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         String e=intent2.getExtras().toString();
         String link="http://www.scoreme.us/a.php?view=1";
 
-        Bundle extras = intent2.getExtras();
-        Set<String> ks = extras.keySet();
-        Iterator<String> iterator = ks.iterator();
-        while (iterator.hasNext()) {
-            Log.e("KEY", iterator.next());
-        }
+        //Bundle extras = intent2.getExtras();
+        //Set<String> ks = extras.keySet();
+        //Iterator<String> iterator = ks.iterator();
+        //while (iterator.hasNext()) {
+        //    Log.e("KEY", iterator.next());
+        //}
 
         Log.e("text", "wifi change detected!" + i);
         Log.e("text", "details:"+e);
