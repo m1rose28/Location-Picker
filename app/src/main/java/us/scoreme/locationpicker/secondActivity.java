@@ -2,6 +2,7 @@ package us.scoreme.locationpicker;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,11 @@ public class secondActivity extends Activity implements httpReply {
 
     public void sendUrl1(View view){
         String a="43";
+        String url="http://www.scoreme.us/a.php?r=3";
+        Intent myServiceIntent = new Intent(getApplicationContext(), httpRequest2.class);
+        myServiceIntent.putExtra("STRING_I_NEED", a);
+        myServiceIntent.putExtra("URL", url);
+        getApplicationContext().startService(myServiceIntent);
         new httpRequest(this).execute("http://www.scoreme.us/a.php?r=2",a,"apple");
     }
 

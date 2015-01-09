@@ -55,6 +55,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".httpRequest2"
+            android:exported="false"/>
         <receiver android:name=".alarm"/>
         <receiver android:name="poweron" >
             <intent-filter>
