@@ -33,7 +33,7 @@ public class httpRequest2 extends IntentService {
         myString= intent.getStringExtra("STRING_I_NEED");
         url= intent.getStringExtra("URL");
         newurl=url+myString;
-        Log.e("newurl:",newurl);
+        //Log.e("newurl:",newurl);
         new newrequest().execute(newurl);
     }
 
@@ -68,7 +68,7 @@ public class httpRequest2 extends IntentService {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Log.e("test",result+"...ok");
+            Log.e("test",result+"ok");
         }
 
     }
