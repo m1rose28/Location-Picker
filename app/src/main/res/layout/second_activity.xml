@@ -10,7 +10,7 @@
         android:text="score.me http #2"
         android:onClick="sendUrl1"
         android:id="@+id/button4"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="20dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -20,7 +20,7 @@
         android:text="View log file"
         android:onClick="viewLog"
         android:id="@+id/viewlog"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="70dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -30,8 +30,21 @@
         android:text="Start scan"
         android:onClick="startScan"
         android:id="@+id/startscan"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="120dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:drawSelectorOnTop="false"
+        android:background="@android:color/background_dark"
+        android:listSelector="@android:color/darker_gray" >
+
+    </ListView>
 
 </RelativeLayout>

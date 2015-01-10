@@ -41,9 +41,9 @@ public class secondActivity extends Activity implements httpReply {
         new httpRequest(this).execute("http://www.scoreme.us/a.php?r=2",a,"apple");
     }
 
-    public void startScan(View view){
-        Intent startScan = new Intent(getApplicationContext(), wifiscan.class);
-        getApplicationContext().startService(startScan);
+    public void startScan(View view) {
+        Intent intent = new Intent(this, WiFiDemo.class);
+        startActivity(intent);
     }
 
     public void viewLog(View view){

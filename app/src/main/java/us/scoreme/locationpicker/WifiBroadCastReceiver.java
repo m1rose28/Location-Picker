@@ -51,9 +51,6 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         mNotificationManager.notify(1, mBuilder.build());
 
-        //Intent startScan=new Intent(appContext, wifiscan.class);
-        //appContext.startService(startScan);
-
         String url="http://www.scoreme.us/a.php?data=1&event=";
         String encodedData= URLEncoder.encode(i);
 
@@ -61,6 +58,10 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         myServiceIntent.putExtra("STRING_I_NEED",encodedData);
         myServiceIntent.putExtra("URL", url);
         appContext.startService(myServiceIntent);
+
+        Intent scan = new Intent(appContext, WiFiDemo.class);
+        scan.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        appContext.startActivity(scan);
 
         Log.e("test","ok moving on");
 

@@ -42,7 +42,13 @@
             android:name=".gloginActivity"
             android:label="@string/glogin"
             android:parentActivityName=".startActivity" >
-        </activity><activity
+        </activity>
+        <activity
+            android:name=".WiFiDemo"
+            android:label="@string/wifidemo"
+            android:parentActivityName=".startActivity" >
+        </activity>
+        <activity
             android:name=".myToast"
             android:theme="@android:style/Theme.NoDisplay">
          </activity>
@@ -56,8 +62,7 @@
         </activity>
         <service
             android:name=".httpRequest2"/>
-        <service
-            android:name=".wifiscan"/>
+
         <receiver android:name=".alarm"/>
         <receiver android:name="poweron" >
             <intent-filter>
