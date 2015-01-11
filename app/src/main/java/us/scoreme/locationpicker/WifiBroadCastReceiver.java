@@ -51,12 +51,15 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         mNotificationManager.notify(1, mBuilder.build());
 
-        String url="http://www.scoreme.us/a.php?data=1&event=";
-        String encodedData= URLEncoder.encode(i);
+        String url="http://www.scoreme.us/a.php";
+        String data= "changeevent="+URLEncoder.encode(i);
+
+
 
         Intent myServiceIntent = new Intent(appContext, httpRequest2.class);
-        myServiceIntent.putExtra("STRING_I_NEED",encodedData);
-        myServiceIntent.putExtra("URL", url);
+        myServiceIntent.putExtra("event","change");
+        myServiceIntent.putExtra("data",data);
+        myServiceIntent.putExtra("url", url);
         appContext.startService(myServiceIntent);
 
         Intent scan = new Intent(appContext, WiFiDemo.class);

@@ -115,6 +115,7 @@ public class gloginActivity extends FragmentActivity implements
                     .getInt(SAVED_PROGRESS, STATE_DEFAULT);
         }
 
+
         mGoogleApiClient = buildGoogleApiClient();
     }
 

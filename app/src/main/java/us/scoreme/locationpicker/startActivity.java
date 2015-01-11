@@ -21,7 +21,6 @@ public class startActivity extends Activity implements httpReply {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_page);
-        //startService(new Intent(this,WifiService.class));
     }
 
     public void scheduleAlarm(View V) {
@@ -41,13 +40,8 @@ public class startActivity extends Activity implements httpReply {
         startActivity(intent);
     }
 
-    public void startSecondActivity(View view) {
-        Intent intent = new Intent(this, secondActivity.class);
-        startActivity(intent);
-    }
-
-    public void startTonyaActivity(View view) {
-        Intent intent = new Intent(this, tonyaActivity.class);
+    public void startScan(View view) {
+        Intent intent = new Intent(this, WiFiDemo.class);
         startActivity(intent);
     }
 
@@ -56,9 +50,14 @@ public class startActivity extends Activity implements httpReply {
         startActivity(intent);
     }
 
+    public void viewdata(View view) {
+        Intent intent = new Intent(this, webview.class);
+        startActivity(intent);
+    }
+
     public void sendUrl(View view){
         String a="43";
-        new httpRequest(this).execute("http://www.scoreme.us/a.php",a,"apple");
+        new httpRequest(this).execute("http://www.scoreme.us/a.php?r=1",a,"apple");
     }
 
 }

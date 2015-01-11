@@ -18,7 +18,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="http hit me"
+        android:text="http test"
         android:onClick="sendUrl"
         android:id="@+id/button1"
         android:layout_marginTop="120dp"
@@ -28,7 +28,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="set alarm"
+        android:text="Set Alarm"
         android:onClick="scheduleAlarm"
         android:id="@+id/button2"
         android:layout_marginTop="170dp"
@@ -38,20 +38,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="second activity"
-        android:onClick="startSecondActivity"
+        android:text="Start Scan"
+        android:onClick="startScan"
         android:id="@+id/button3"
         android:layout_marginTop="220dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tonya"
-        android:onClick="startTonyaActivity"
-        android:id="@+id/button5"
-        android:layout_marginTop="270dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -65,5 +55,14 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Data"
+        android:onClick="viewdata"
+        android:id="@+id/button7"
+        android:layout_marginTop="370dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

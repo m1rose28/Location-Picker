@@ -29,16 +29,6 @@
             android:parentActivityName=".startActivity" >
         </activity>
         <activity
-            android:name=".secondActivity"
-            android:label="@string/second_activity"
-            android:parentActivityName=".startActivity" >
-        </activity>
-        <activity
-            android:name=".tonyaActivity"
-            android:label="@string/tonya"
-            android:parentActivityName=".startActivity" >
-        </activity>
-        <activity
             android:name=".gloginActivity"
             android:label="@string/glogin"
             android:parentActivityName=".startActivity" >
@@ -49,9 +39,10 @@
             android:parentActivityName=".startActivity" >
         </activity>
         <activity
-            android:name=".myToast"
-            android:theme="@android:style/Theme.NoDisplay">
-         </activity>
+            android:name=".webview"
+            android:label="@string/webview"
+            android:parentActivityName=".startActivity" >
+        </activity>
         <activity
             android:name=".startActivity"
             android:label="@string/startapp" >
@@ -64,12 +55,6 @@
             android:name=".httpRequest2"/>
 
         <receiver android:name=".alarm"/>
-        <receiver android:name="poweron" >
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-            </intent-filter>
-        </receiver>
         <receiver android:name=".WifiBroadCastReceiver" >
             <intent-filter>
                 <action android:name="android.net.wifi.supplicant.STATE_CHANGE" />
