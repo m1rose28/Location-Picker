@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -19,7 +18,8 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent)
     {
         String i=intent.toString();
-        String link="http://www.scoreme.us/a.php?view=1";
+
+        //String link="http://www.scoreme.us/a.php?view=1";
 
         Bundle bundle=intent.getExtras();
 
@@ -33,10 +33,13 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         Toast.makeText(context, "wifi change detected", Toast.LENGTH_SHORT).show();
 
-        Intent resultIntent = new Intent(Intent.ACTION_VIEW);
-        resultIntent.setData(Uri.parse(link));
-
         Context appContext = context.getApplicationContext();
+
+        Intent resultIntent = new Intent(appContext, webview.class);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        //Intent resultIntent = new Intent(Intent.ACTION_VIEW);
+        //resultIntent.setData(Uri.parse(link));
 
         PendingIntent pending = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -53,8 +56,6 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         String url="http://www.scoreme.us/a.php";
         String data= "changeevent="+URLEncoder.encode(i);
-
-
 
         Intent myServiceIntent = new Intent(appContext, httpRequest2.class);
         myServiceIntent.putExtra("event","change");

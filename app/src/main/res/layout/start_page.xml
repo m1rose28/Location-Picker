@@ -65,4 +65,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cover page"
+        android:onClick="coverActivity"
+        android:id="@+id/button7"
+        android:layout_marginTop="420dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -1,50 +1,66 @@
 package us.scoreme.locationpicker;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.net.URLEncoder;
 import java.util.List;
 
-public class WiFiDemo extends Activity {
+public class wifiService extends Service {
 
     WifiManager mainWifiObj;
     WifiScanReceiver wifiReciever;
-    ListView list;
     String wifis[];
+    int mStartMode;       // indicates how to behave if the service is killed
+    IBinder mBinder;      // interface for clients that bind
+    boolean mAllowRebind; // indicates whether onRebind should be used
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.scan_results);
-        list = (ListView)findViewById(R.id.listView1);
+    @Override
+    public void onCreate() {
+        // The service is being created
+        Log.e("scan:","creating scan service");
         mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         wifiReciever = new WifiScanReceiver();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // The service is starting, due to a call to startService()
+        Log.e("scan:","starting scan service");
         mainWifiObj.startScan();
+        return mStartMode;
     }
 
-    protected void onPause() {
-        unregisterReceiver(wifiReciever);
-        super.onPause();
+    @Override
+    public IBinder onBind(Intent intent) {
+        // A client is binding to the service with bindService()
+        return mBinder;
     }
 
-    protected void onResume() {
-        registerReceiver(wifiReciever, new IntentFilter(
-                WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        super.onResume();
+    @Override
+    public boolean onUnbind(Intent intent) {
+        // All clients have unbound with unbindService()
+        return mAllowRebind;
     }
 
-    class WifiScanReceiver extends BroadcastReceiver {
-        @SuppressLint("UseValueOf")
+    @Override
+    public void onRebind(Intent intent) {
+        // A client is binding to the service with bindService(),
+        // after onUnbind() has already been called
+    }
+
+    @Override
+    public void onDestroy() {
+        // The service is no longer used and is being destroyed
+    }
+
+    public class WifiScanReceiver extends BroadcastReceiver {
 
         public void onReceive(Context c, Intent intent) {
             List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
@@ -78,11 +94,6 @@ public class WiFiDemo extends Activity {
                 myServiceIntent.putExtra("url", url);
                 c.startService(myServiceIntent);
             }
-
-            list.setAdapter(new ArrayAdapter<String>(c,
-                    android.R.layout.simple_list_item_1,wifis));
-
-            finish();
         }
     }
 

@@ -36,7 +36,7 @@
         <activity
             android:name=".WiFiDemo"
             android:label="@string/wifidemo"
-            android:parentActivityName=".startActivity" >
+            android:theme="@android:style/Theme.NoDisplay">
         </activity>
         <activity
             android:name=".webview"
@@ -44,7 +44,13 @@
             android:parentActivityName=".startActivity" >
         </activity>
         <activity
+            android:name=".coverActivity"
+            android:label="@string/glogin"
+            android:parentActivityName=".startActivity" >
+        </activity>
+        <activity
             android:name=".startActivity"
+            android:launchMode="singleTop"
             android:label="@string/startapp" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,7 +59,8 @@
         </activity>
         <service
             android:name=".httpRequest2"/>
-
+        <service
+            android:name=".wifiService"/>
         <receiver android:name=".alarm"/>
         <receiver android:name=".WifiBroadCastReceiver" >
             <intent-filter>

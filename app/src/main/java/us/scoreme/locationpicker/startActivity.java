@@ -21,6 +21,8 @@ public class startActivity extends Activity implements httpReply {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_page);
+        //Intent intent = new Intent(this, wifiService.class);
+        //startService(intent);
     }
 
     public void scheduleAlarm(View V) {
@@ -41,12 +43,17 @@ public class startActivity extends Activity implements httpReply {
     }
 
     public void startScan(View view) {
-        Intent intent = new Intent(this, WiFiDemo.class);
-        startActivity(intent);
+        Intent intent = new Intent(this, wifiService.class);
+        startService(intent);
     }
 
     public void startloginActivity(View view) {
         Intent intent = new Intent(this, gloginActivity.class);
+        startActivity(intent);
+    }
+
+    public void coverActivity(View view) {
+        Intent intent = new Intent(this, coverActivity.class);
         startActivity(intent);
     }
 
