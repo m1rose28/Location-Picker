@@ -19,17 +19,16 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
     {
         String i=intent.toString();
 
-        //String link="http://www.scoreme.us/a.php?view=1";
-
         Bundle bundle=intent.getExtras();
 
         for (String key : bundle.keySet()) {
             Object value = bundle.get(key);
-            Log.e("test", String.format("%s %s (%s)", key, value.toString(), value.getClass().getName()));
             i=i+":"+key+"->"+value.toString()+":";
+            Log.e("key|"+key+":", value.toString());
         }
 
-        Log.e("text", "wifi change detected!" + i);
+        Log.e("wifi change detected!", i);
+
 
         Toast.makeText(context, "wifi change detected", Toast.LENGTH_SHORT).show();
 
@@ -55,7 +54,10 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         mNotificationManager.notify(1, mBuilder.build());
 
         String url="http://www.scoreme.us/a.php";
-        String data= "changeevent="+URLEncoder.encode(i);
+        String ts=String.valueOf(System.currentTimeMillis() / 1000L);
+        String userid=sph.getSharedPreferenceString(appContext,"userid","0");
+
+        String data= "userid="+userid+"&ts="+ts+"&changeevent="+URLEncoder.encode(i);
 
         Intent myServiceIntent = new Intent(appContext, httpRequest2.class);
         myServiceIntent.putExtra("event","change");

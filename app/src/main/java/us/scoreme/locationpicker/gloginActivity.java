@@ -209,7 +209,8 @@ public class gloginActivity extends FragmentActivity implements
                 getResources().getString(R.string.signed_in_as),
                 currentUser.getDisplayName()));
 
-        Log.e("userid:",currentUser.getId());
+        //store the user id in a shared preference
+        sph.setSharedPreferenceString(this,"userid",currentUser.getId());
 
         Plus.PeopleApi.loadVisible(mGoogleApiClient, null)
                 .setResultCallback(this);
@@ -342,6 +343,10 @@ public class gloginActivity extends FragmentActivity implements
         mRevokeButton.setEnabled(false);
 
         mStatus.setText(R.string.status_signed_out);
+
+        //store the user id as zero
+        sph.setSharedPreferenceString(this,"userid","0");
+
 
         mCirclesList.clear();
         mCirclesAdapter.notifyDataSetChanged();

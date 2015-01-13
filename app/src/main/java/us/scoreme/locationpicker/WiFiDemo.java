@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -30,6 +31,7 @@ public class WiFiDemo extends Activity {
         mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         wifiReciever = new WifiScanReceiver();
         mainWifiObj.startScan();
+
     }
 
     protected void onPause() {
@@ -47,6 +49,9 @@ public class WiFiDemo extends Activity {
         @SuppressLint("UseValueOf")
 
         public void onReceive(Context c, Intent intent) {
+
+            Toast.makeText(c, "getting wifi results...", Toast.LENGTH_SHORT).show();
+
             List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
             wifis = new String[wifiScanList.size()];
             for(int i = 0; i < wifiScanList.size(); i++){
@@ -61,14 +66,16 @@ public class WiFiDemo extends Activity {
                 Log.e("frequency",Integer.toString(x.frequency));
                 Log.e("level",Integer.toString(x.level));
                 Log.e("timestamp",Long.toString(x.timestamp));
+                long unixTime = System.currentTimeMillis() / 1000L;
 
                 String data="SSID="+
                         URLEncoder.encode(x.SSID)+"&BSSID="+
                         URLEncoder.encode(x.BSSID)+"&capabilities="+
                         URLEncoder.encode(x.capabilities)+"&frequency="+
                         URLEncoder.encode(Integer.toString(x.frequency))+"&level="+
-                        URLEncoder.encode(Integer.toString(x.level))+"&timestamp="+
-                        URLEncoder.encode(Long.toString(x.timestamp));
+                        URLEncoder.encode(Integer.toString(x.level))+"&ts="+
+                        URLEncoder.encode(Long.toString(unixTime))+
+                        "&userid="+sph.getSharedPreferenceString(c,"userid","0");
 
                 String url="http://www.scoreme.us/a.php";
 

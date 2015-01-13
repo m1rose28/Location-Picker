@@ -88,6 +88,8 @@ public class coverActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cover_page);
 
+        Log.e("sp:",sph.getSharedPreferenceString(this,"startup","0"));
+
         mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
         //mSignOutButton = (Button) findViewById(R.id.sign_out_button);
         //mRevokeButton = (Button) findViewById(R.id.revoke_access_button);
@@ -202,13 +204,18 @@ public class coverActivity extends FragmentActivity implements
                 getResources().getString(R.string.signed_in_as),
                 currentUser.getDisplayName()));
 
-        Log.e("userid:",currentUser.getId());
+        //store the user id in a shared preference
+        sph.setSharedPreferenceString(this,"userid",currentUser.getId());
 
         Plus.PeopleApi.loadVisible(mGoogleApiClient, null)
                 .setResultCallback(this);
 
         // Indicate that the sign in process is complete.
         mSignInProgress = STATE_DEFAULT;
+
+        //start the main application...
+        Intent intent = new Intent(this, startActivity.class);
+        startActivity(intent);
     }
 
     /* onConnectionFailed is called when our Activity could not connect to Google
