@@ -13,7 +13,12 @@ public class alarm extends BroadcastReceiver {
 
         Toast.makeText(context, "Alarm Triggered hoss!", Toast.LENGTH_LONG).show();
         Log.e("test","alarm set!");
-     }
+
+        Intent scan = new Intent(context, WiFiDemo.class);
+        scan.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(scan);
+
+    }
 
 
 }

@@ -126,12 +126,6 @@ public class MapsActivity extends FragmentActivity {
                 final TextView textView1ToChange = (TextView) findViewById(R.id.latlng1);
                 textView1ToChange.setText(
                         "("+lat+", "+lng+")");
-
-                myClass rand=new myClass();
-
-                final TextView textView2ToChange = (TextView) findViewById(R.id.random);
-                textView2ToChange.setText(String.valueOf(rand.randomMath()));
-
             }
 
             else

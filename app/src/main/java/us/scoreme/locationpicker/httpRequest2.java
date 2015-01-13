@@ -21,8 +21,9 @@ import java.io.IOException;
  */
 public class httpRequest2 extends IntentService {
 
-    String myString;
+    String data;
     String url;
+    String event;
     String newurl;
 
     public httpRequest2() {
@@ -30,10 +31,11 @@ public class httpRequest2 extends IntentService {
     }
 
     protected void onHandleIntent(Intent intent) {
-        myString= intent.getStringExtra("STRING_I_NEED");
-        url= intent.getStringExtra("URL");
-        newurl=url+myString;
-        //Log.e("newurl:",newurl);
+        data=intent.getStringExtra("data");
+        url= intent.getStringExtra("url");
+        event=intent.getStringExtra("event");
+        newurl=url+"?event="+event+"&"+data;
+        Log.e("newurl:",newurl);
         new newrequest().execute(newurl);
     }
 
@@ -68,7 +70,6 @@ public class httpRequest2 extends IntentService {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Log.e("test",result+"ok");
         }
 
     }

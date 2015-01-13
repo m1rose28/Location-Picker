@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageView"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/milkyway"/>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/placeHolder"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        />
+
+    <ImageView
+        android:id="@+id/myCircleView2"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/circ2"
+        android:layout_below="@+id/placeHolder"
+        android:layout_toRightOf="@+id/placeHolder"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:text="You are here..."
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:id="@+id/textView"
+        android:layout_below="@+id/myCircleView2"
+        android:paddingTop="5dp"
+        android:layout_toRightOf="@+id/placeHolder"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="110dp"
+        android:text="Locations"
+        android:textColor="#ffffff"
+        android:textSize="40dp"
+        android:id="@+id/locations"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="50dp"
+        />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/locations"
+        android:enabled="true" />
+
+    <TextView
+        android:id="@+id/sign_in_status"
+        android:layout_width="wrap_content"
+        android:textColor="#ffffff"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="@string/status_signed_out"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="5dp"
+        android:layout_below="@+id/sign_in_button" />
+
+</RelativeLayout>
+
+</FrameLayout>

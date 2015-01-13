@@ -5,7 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,28 +15,30 @@ import java.net.URLEncoder;
 public class WifiBroadCastReceiver extends BroadcastReceiver {
 
     @Override
-    public void onReceive(Context context, Intent intent2)
+    public void onReceive(Context context, Intent intent)
     {
-        String i=intent2.toString();
-        String e=intent2.getExtras().toString();
-        String link="http://www.scoreme.us/a.php?view=1";
+        String i=intent.toString();
 
-        //Bundle extras = intent2.getExtras();
-        //Set<String> ks = extras.keySet();
-        //Iterator<String> iterator = ks.iterator();
-        //while (iterator.hasNext()) {
-        //    Log.e("KEY", iterator.next());
-        //}
+        Bundle bundle=intent.getExtras();
 
-        Log.e("text", "wifi change detected!" + i);
-        Log.e("text", "details:"+e);
+        for (String key : bundle.keySet()) {
+            Object value = bundle.get(key);
+            i=i+":"+key+"->"+value.toString()+":";
+            Log.e("key|"+key+":", value.toString());
+        }
 
-        Toast.makeText(context, "wifi change detected:"+i+e, Toast.LENGTH_SHORT).show();
+        Log.e("wifi change detected!", i);
 
-        Intent resultIntent = new Intent(Intent.ACTION_VIEW);
-        resultIntent.setData(Uri.parse(link));
+
+        Toast.makeText(context, "wifi change detected", Toast.LENGTH_SHORT).show();
 
         Context appContext = context.getApplicationContext();
+
+        Intent resultIntent = new Intent(appContext, webview.class);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        //Intent resultIntent = new Intent(Intent.ACTION_VIEW);
+        //resultIntent.setData(Uri.parse(link));
 
         PendingIntent pending = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -51,14 +53,24 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         mNotificationManager.notify(1, mBuilder.build());
 
-        String url="http://www.scoreme.us/a.php?data=1&event=";
-        Intent myServiceIntent = new Intent(appContext, httpRequest2.class);
-        String data=i+e;
-        String encodedData= URLEncoder.encode(data);
+        String url="http://www.scoreme.us/a.php";
+        String ts=String.valueOf(System.currentTimeMillis() / 1000L);
+        String userid=sph.getSharedPreferenceString(appContext,"userid","0");
 
-        myServiceIntent.putExtra("STRING_I_NEED",encodedData);
-        myServiceIntent.putExtra("URL", url);
+        String data= "userid="+userid+"&ts="+ts+"&changeevent="+URLEncoder.encode(i);
+
+        Intent myServiceIntent = new Intent(appContext, httpRequest2.class);
+        myServiceIntent.putExtra("event","change");
+        myServiceIntent.putExtra("data",data);
+        myServiceIntent.putExtra("url", url);
         appContext.startService(myServiceIntent);
+
+        Intent scan = new Intent(appContext, WiFiDemo.class);
+        scan.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        appContext.startActivity(scan);
+
+        Log.e("test","ok moving on");
+
 
     }
 

@@ -4,10 +4,9 @@
     <string name="app_name">Location Picker</string>
     <string name="title_activity_maps">Where art thou?</string>
     <string name="startapp">My Experiments</string>
-    <string name="second_activity">Magic activity #2</string>
-    <string name="service_name">Notifications Listener</string>
-    <string name="tonya">Tonya</string>
+    <string name="wifidemo">Wifiscan (listen up)</string>
     <string name="glogin">G+ Sign in</string>
+    <string name="webview">Data</string>
 
     <string name="circles_title">Visible circles:</string>
     <string name="sign_out_button_name">Sign out</string>

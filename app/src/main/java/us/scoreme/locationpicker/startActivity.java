@@ -12,6 +12,7 @@ import android.widget.Toast;
 public class startActivity extends Activity implements httpReply {
 
     private PendingIntent pendingIntent;
+    public String userid;
 
     @Override
     public void updateActivity(String result){
@@ -20,8 +21,17 @@ public class startActivity extends Activity implements httpReply {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userid=sph.getSharedPreferenceString(this,"userid","0");
+
+        if(userid.equals("0")){
+            Intent intent = new Intent(this, coverActivity.class);
+            startActivity(intent);
+        }
+
         setContentView(R.layout.start_page);
-        startService(new Intent(this,WifiService.class));
+
+        //Intent intent = new Intent(this, wifiService.class);
+        //startService(intent);
     }
 
     public void scheduleAlarm(View V) {
@@ -30,7 +40,7 @@ public class startActivity extends Activity implements httpReply {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        int interval=1000*60*15; // every 15 minutes
+        int interval=1000*60*1; // every 15 minutes
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
         Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
@@ -41,13 +51,9 @@ public class startActivity extends Activity implements httpReply {
         startActivity(intent);
     }
 
-    public void startSecondActivity(View view) {
-        Intent intent = new Intent(this, secondActivity.class);
-        startActivity(intent);
-    }
-
-    public void startTonyaActivity(View view) {
-        Intent intent = new Intent(this, tonyaActivity.class);
+    public void startScan(View view) {
+        Toast.makeText(this, "starting scan...", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, WiFiDemo.class);
         startActivity(intent);
     }
 
@@ -56,9 +62,19 @@ public class startActivity extends Activity implements httpReply {
         startActivity(intent);
     }
 
+    public void coverActivity(View view) {
+        Intent intent = new Intent(this, coverActivity.class);
+        startActivity(intent);
+    }
+
+    public void viewdata(View view) {
+        Intent intent = new Intent(this, webview.class);
+        startActivity(intent);
+    }
+
     public void sendUrl(View view){
         String a="43";
-        new httpRequest(this).execute("http://www.scoreme.us/a.php",a,"apple");
+        new httpRequest(this).execute("http://www.scoreme.us/a.php?r=1",a,"apple");
     }
 
 }

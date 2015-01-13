@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.RECEIVE_POWER_CONNECTED"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/myicon"
@@ -27,25 +28,28 @@
             android:parentActivityName=".startActivity" >
         </activity>
         <activity
-            android:name=".secondActivity"
-            android:label="@string/second_activity"
-            android:parentActivityName=".startActivity" >
-        </activity>
-        <activity
-            android:name=".tonyaActivity"
-            android:label="@string/tonya"
-            android:parentActivityName=".startActivity" >
-        </activity>
-        <activity
             android:name=".gloginActivity"
             android:label="@string/glogin"
             android:parentActivityName=".startActivity" >
-        </activity><activity
-            android:name=".myToast"
+        </activity>
+        <activity
+            android:name=".WiFiDemo"
+            android:label="@string/wifidemo"
             android:theme="@android:style/Theme.NoDisplay">
-         </activity>
+        </activity>
+        <activity
+            android:name=".webview"
+            android:label="@string/webview"
+            android:parentActivityName=".startActivity" >
+        </activity>
+        <activity
+            android:name=".coverActivity"
+            android:label="@string/glogin"
+            android:parentActivityName=".startActivity" >
+        </activity>
         <activity
             android:name=".startActivity"
+            android:launchMode="singleTop"
             android:label="@string/startapp" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,13 +58,9 @@
         </activity>
         <service
             android:name=".httpRequest2"/>
+        <service
+            android:name=".wifiService"/>
         <receiver android:name=".alarm"/>
-        <receiver android:name="poweron" >
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-            </intent-filter>
-        </receiver>
         <receiver android:name=".WifiBroadCastReceiver" >
             <intent-filter>
                 <action android:name="android.net.wifi.supplicant.STATE_CHANGE" />
