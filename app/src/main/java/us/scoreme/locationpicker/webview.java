@@ -20,7 +20,6 @@ public class webview extends Activity {
         String userid=sph.getSharedPreferenceString(this,"userid","0");
         Toast.makeText(this, userid, Toast.LENGTH_SHORT).show();
 
-
         webView = (WebView) findViewById(R.id.mywebview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new myWebViewClient());

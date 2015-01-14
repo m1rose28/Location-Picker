@@ -58,12 +58,9 @@
         </activity>
         <service
             android:name=".httpRequest2"/>
-        <service
-            android:name=".wifiService"/>
         <receiver android:name=".alarm"/>
         <receiver android:name=".WifiBroadCastReceiver" >
             <intent-filter>
-                <action android:name="android.net.wifi.supplicant.STATE_CHANGE" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
