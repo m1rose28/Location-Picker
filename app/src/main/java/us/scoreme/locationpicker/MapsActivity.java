@@ -81,7 +81,7 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
                 String my = mMap.getCameraPosition().target.toString();
-                Log.i("mytest", my);
+                Log.i("mapsactivity:", my);
 
                 LatLng move = mMap.getCameraPosition().target;
 
@@ -114,7 +114,7 @@ public class MapsActivity extends FragmentActivity {
                     strAddress.append(fetchedAddress.getAddressLine(i)).append("\n");
                 }
 
-                Log.i("mytest", "I am at: " +strAddress.toString());
+                Log.i("mapsactivity", "I am at: " +strAddress.toString());
 
                 final TextView textViewToChange = (TextView) findViewById(R.id.address1);
                 textViewToChange.setText(
@@ -129,7 +129,7 @@ public class MapsActivity extends FragmentActivity {
             }
 
             else
-                Log.i("mytest", "yo, yo. location not found");
+                Log.i("mapsactivity", "yo, yo. location not found");
 
         }
         catch (IOException e) {

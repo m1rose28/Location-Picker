@@ -29,8 +29,8 @@ class httpRequest extends AsyncTask<String, String, String> {
         String responseString = null;
         try {
             response = httpclient.execute(new HttpGet(uri[0]));
-            Log.e("test",uri[1]);
-            Log.e("test",uri[2]);
+            Log.e("httprequest",uri[1]);
+            Log.e("httprequest",uri[2]);
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -53,7 +53,7 @@ class httpRequest extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        Log.e("test",result);
+        Log.e("httprequest",result);
         httpReply.updateActivity(result);
 
     }

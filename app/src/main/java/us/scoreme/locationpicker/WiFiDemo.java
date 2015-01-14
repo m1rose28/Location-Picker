@@ -60,12 +60,12 @@ public class WiFiDemo extends Activity {
 
                 ScanResult x=wifiScanList.get(i);
 
-                Log.e("SSID",x.SSID);
-                Log.e("BSSID",x.BSSID);
-                Log.e("capabilities",x.capabilities);
-                Log.e("frequency",Integer.toString(x.frequency));
-                Log.e("level",Integer.toString(x.level));
-                Log.e("timestamp",Long.toString(x.timestamp));
+                Log.e("WifiBroadCastReceiver-SSID",x.SSID);
+                Log.e("WifiBroadCastReceiver-BSSID",x.BSSID);
+                Log.e("WifiBroadCastReceiver-capabilities",x.capabilities);
+                Log.e("WifiBroadCastReceiver-frequency",Integer.toString(x.frequency));
+                Log.e("WifiBroadCastReceiver-level",Integer.toString(x.level));
+                Log.e("WifiBroadCastReceiver-timestamp",Long.toString(x.timestamp));
                 long unixTime = System.currentTimeMillis() / 1000L;
 
                 String data="SSID="+

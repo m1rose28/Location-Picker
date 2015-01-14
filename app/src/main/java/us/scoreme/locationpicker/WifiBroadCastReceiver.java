@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.net.URLEncoder;
 
@@ -17,6 +16,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent)
     {
+
         String i=intent.toString();
 
         Bundle bundle=intent.getExtras();
@@ -30,7 +30,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         Log.e("wifi change detected!", i);
 
 
-        Toast.makeText(context, "wifi change detected", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "wifi change detected", Toast.LENGTH_SHORT).show();
 
         Context appContext = context.getApplicationContext();
 
@@ -65,14 +65,30 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         myServiceIntent.putExtra("url", url);
         appContext.startService(myServiceIntent);
 
-        Intent scan = new Intent(appContext, WiFiDemo.class);
-        scan.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        appContext.startActivity(scan);
+        String lastScanTimeString=sph.getSharedPreferenceString(appContext,"scantime","0");
 
-        Log.e("test","ok moving on");
+        Log.e("lastScanTimeString",lastScanTimeString);
+        int elapsedTime=0;
 
+        if(!lastScanTimeString.equals("0")) {
+            int lastScanTimeLong = Integer.valueOf(lastScanTimeString);
+            int timeNowLong = Integer.valueOf(ts);
+            elapsedTime = timeNowLong-lastScanTimeLong;
+            Log.e("elapsed time",String.valueOf(elapsedTime));
+         }
+        if(elapsedTime>60 || elapsedTime==0){
+            Intent scan = new Intent(appContext, WiFiDemo.class);
+            scan.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            appContext.startActivity(scan);
+            sph.setSharedPreferenceString(appContext,"scantime",ts);
+            Log.e("lastscan",ts);
+            Log.e("WifiBroadCastReceiver:","ok moving on");
+        }
+
+        else {
+            Log.e("scan aborted", "you already have a fresh scan - go fish");
+        }
 
     }
-
 
 }
