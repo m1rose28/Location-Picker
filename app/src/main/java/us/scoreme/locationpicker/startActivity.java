@@ -30,8 +30,6 @@ public class startActivity extends Activity implements httpReply {
 
         setContentView(R.layout.start_page);
 
-        //Intent intent = new Intent(this, wifiService.class);
-        //startService(intent);
     }
 
     public void scheduleAlarm(View V) {
@@ -39,6 +37,9 @@ public class startActivity extends Activity implements httpReply {
         pendingIntent = PendingIntent.getBroadcast(startActivity.this, 0, alarmIntent, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        myLocations m=new myLocations();
+        m.myapp();
 
         int interval=1000*60*15; // every 15 minutes
 
@@ -48,6 +49,11 @@ public class startActivity extends Activity implements httpReply {
 
     public void startMaps(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
+    public void startApp(View view) {
+        Intent intent = new Intent(this, startApp.class);
         startActivity(intent);
     }
 

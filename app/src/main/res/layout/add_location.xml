@@ -33,35 +33,41 @@
         android:textSize="20dp"/>
 
     <ImageView
-        android:id="@+id/myRectangleView"
+        android:id="@+id/myOverlay"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/rec1"
+        android:layout_height="match_parent"
+        android:src="@drawable/rec_overlay"
         />
 
     <TextView
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/address1"
+        android:layout_width="wrap_content"
+        android:text="< Back"
+        android:id="@+id/backButton"
         android:textColor="#FFFFFF"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="17dp"
+        android:onClick="nextButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="70dp"
         android:layout_alignParentBottom="true"
-        android:textSize="16dp" />
+        android:background="#1B60FF"
+        android:padding="10dp"
+        android:textSize="30dp" />
 
     <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/latlng1"
-        android:textColor="#CCCCCC"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:text="Next >"
+        android:id="@+id/nextButton"
+        android:textColor="#FFFFFF"
+        android:onClick="nextButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="70dp"
         android:layout_alignParentBottom="true"
-        android:textSize="13dp" />
-
+        android:background="#1B60FF"
+        android:padding="10dp"
+        android:textSize="30dp" />
 
 
 </RelativeLayout>

@@ -48,6 +48,15 @@
             android:parentActivityName=".startActivity" >
         </activity>
         <activity
+            android:name=".startApp"
+            android:label="@string/app_name"
+            android:parentActivityName=".startActivity" >
+        </activity>
+        <activity
+            android:name=".addLocation"
+            android:label="@string/addLocation"
+            android:parentActivityName=".startApp" >
+        </activity>        <activity
             android:name=".startActivity"
             android:launchMode="singleTop"
             android:label="@string/startapp" >
