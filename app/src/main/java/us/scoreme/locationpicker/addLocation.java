@@ -1,8 +1,6 @@
 package us.scoreme.locationpicker;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
@@ -139,25 +137,13 @@ public class addLocation extends FragmentActivity {
 
     }
 
-    public void nextButton(View view) {
-        ImageView overlay1= (ImageView) findViewById(R.id.myOverlay);
-        overlay1.setVisibility(View.VISIBLE);
-        Toast.makeText(this, "clicked next...", Toast.LENGTH_SHORT).show();
-    }
-
     public void backButton(View view) {
         ImageView overlay1= (ImageView) findViewById(R.id.myOverlay);
         overlay1.setVisibility(View.GONE);
         Toast.makeText(this, "clicked back...", Toast.LENGTH_SHORT).show();
     }
 
-    public void show_dialog(View view) {
-        FragmentManager fm = getFragmentManager();;
-        DialogFragment newFragment = new DialogFragment();
-        newFragment.show(fm, "abc");
-    }
-
-    public void showd(View view){
+    public void nextButton(View view){
         // get prompts.xml view
         LayoutInflater li = LayoutInflater.from(this);
         View promptsView = li.inflate(R.layout.fragment_edit_name, null);
@@ -180,7 +166,9 @@ public class addLocation extends FragmentActivity {
                                 // get user input and set it to result
                                 // edit text
                                 //result.setText(userInput.getText());
-                            }
+                                String text=userInput.getText().toString();
+                                Log.e("text entered",text);
+                                }
                         })
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {

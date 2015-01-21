@@ -62,7 +62,7 @@
         android:text="Next &#10095;"
         android:id="@+id/nextButton"
         android:textColor="#FFFFFF"
-        android:onClick="showd"
+        android:onClick="nextButton"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="70dp"
         android:layout_alignParentBottom="true"
