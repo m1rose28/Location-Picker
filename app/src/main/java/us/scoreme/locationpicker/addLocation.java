@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -29,8 +30,6 @@ public class addLocation extends FragmentActivity {
     public double lng;
     public double newlat;
     public double newlng;
-
-    //FusedLocationService fusedLocationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +78,6 @@ public class addLocation extends FragmentActivity {
         }
 
         setContentView(R.layout.add_location);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
         setUpMapIfNeeded();
     }
 
@@ -106,7 +104,7 @@ public class addLocation extends FragmentActivity {
     private void setUpMap() {
         LatLng home = new LatLng(lat, lng);
 
-        mMap.setMyLocationEnabled(true);
+        //mMap.setMyLocationEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(home, 18));
 
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
@@ -137,8 +135,14 @@ public class addLocation extends FragmentActivity {
     }
 
     public void nextButton(View view) {
+        ImageView overlay1= (ImageView) findViewById(R.id.myOverlay);
+        overlay1.setVisibility(View.VISIBLE);
         Toast.makeText(this, "clicked next...", Toast.LENGTH_SHORT).show();
     }
 
-
+    public void backButton(View view) {
+        ImageView overlay1= (ImageView) findViewById(R.id.myOverlay);
+        overlay1.setVisibility(View.GONE);
+        Toast.makeText(this, "clicked back...", Toast.LENGTH_SHORT).show();
+    }
 }

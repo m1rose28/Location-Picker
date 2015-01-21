@@ -36,38 +36,41 @@
         android:id="@+id/myOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:src="@drawable/rec_overlay"
         />
 
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="< Back"
+        android:text="&#10094; Back"
         android:id="@+id/backButton"
         android:textColor="#FFFFFF"
-        android:onClick="nextButton"
-        android:layout_centerHorizontal="true"
+        android:onClick="backButton"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="70dp"
         android:layout_alignParentBottom="true"
         android:background="#1B60FF"
         android:padding="10dp"
-        android:textSize="30dp" />
+        android:textSize="20dp"
+        android:layout_toLeftOf="@+id/plusCenter"
+        />
 
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="Next >"
+        android:text="Next &#10095;"
         android:id="@+id/nextButton"
         android:textColor="#FFFFFF"
         android:onClick="nextButton"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="70dp"
         android:layout_alignParentBottom="true"
         android:background="#1B60FF"
         android:padding="10dp"
-        android:textSize="30dp" />
+        android:textSize="20dp"
+        android:layout_toRightOf="@+id/plusCenter"
+        />
 
 
 </RelativeLayout>
