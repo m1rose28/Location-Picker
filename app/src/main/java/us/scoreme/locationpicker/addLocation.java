@@ -33,13 +33,14 @@ public class addLocation extends FragmentActivity {
     public double lng;
     public double newlat;
     public double newlng;
+    public String mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        String mode = intent.getStringExtra("mode");
+        mode = intent.getStringExtra("mode");
 
         //show error dialog if GoolglePlayServices not available
         if (!isGooglePlayServicesAvailable()) {
@@ -151,6 +152,7 @@ public class addLocation extends FragmentActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
 
+
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
 
@@ -162,14 +164,25 @@ public class addLocation extends FragmentActivity {
                 .setCancelable(false)
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 // get user input and set it to result
                                 // edit text
                                 //result.setText(userInput.getText());
-                                String text=userInput.getText().toString();
-                                Log.e("text entered",text);
-                                }
-                        })
+                                String name = userInput.getText().toString();
+                                if (name.length() > 0) {
+                                    Log.e("textlength",String.valueOf(name.length()));
+                                    Log.e("text entered",name);
+                                    Log.e("lat",String.valueOf(newlat));
+                                    Log.e("lng",String.valueOf(newlat));
+                                    Intent intent = new Intent(getApplicationContext(), startApp.class);
+                                    intent.putExtra("name",name);
+                                    intent.putExtra("lat",String.valueOf(newlat));
+                                    intent.putExtra("lng", String.valueOf(newlng));
+                                    intent.putExtra("mode", mode);
+                                    startActivity(intent);                               }
+                            Log.e("text entered",name);
+                        }
+    })
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {

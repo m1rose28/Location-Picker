@@ -19,12 +19,9 @@ import java.util.ArrayList;
 public class startApp extends ListActivity implements httpReply {
 
     private PendingIntent pendingIntent;
+
     public String userid;
     ArrayList<String> addressList1 = new ArrayList<String>();
-
-    static final String[] addresses = new String[] { "Apple",
-            "Avocado", "Banana",
-             };
 
     String addressList = "[\n" +
             "    {\n" +
@@ -50,23 +47,44 @@ public class startApp extends ListActivity implements httpReply {
         super.onCreate(savedInstanceState);
         userid=sph.getSharedPreferenceString(this,"userid","0");
 
+        addressList="[]";
         if(userid.equals("0")){
             Intent intent = new Intent(this, coverActivity.class);
             startActivity(intent);
         }
 
+        Intent intent = getIntent();
+        String mode = intent.getStringExtra("mode");
+
+        if(mode==null){mode="nothing";}
+
+        if(mode.equals("edit")) {
+            String lat = intent.getStringExtra("lat");
+            String lng = intent.getStringExtra("lng");
+            String name = intent.getStringExtra("name");
+            Log.e("edited",lat+lng+name);
+            }
+
         try {
             JSONArray addresses = new JSONArray(addressList);
+
+            if(mode.equals("new")) {
+                String lat = intent.getStringExtra("lat");
+                String lng = intent.getStringExtra("lng");
+                String name = intent.getStringExtra("name");
+                addressList1.add(name);
+                Log.e("added",lat+lng+name);
+            }
 
             for(int i=0;i<addresses.length(); i++){
 
                 try {
                     JSONObject adddetail = addresses.getJSONObject(i);
-                    String name = adddetail.getString("name");
+                    String name1 = adddetail.getString("name");
                     String lat = adddetail.getString("lat");
                     String lng = adddetail.getString("lng");
-                    addressList1.add(name);
-                    Log.e("data",name+lat+lng);
+                    addressList1.add(name1);
+                    Log.e("data",name1+lat+lng);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
