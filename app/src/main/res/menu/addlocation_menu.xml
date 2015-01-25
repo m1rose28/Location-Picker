@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- Search, should appear as action button -->
+    <item android:id="@+id/delete"
+        android:icon="@drawable/ic_action_discard"
+        android:title="@string/delete"
+        android:showAsAction="ifRoom" />
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/delete1"
+        android:title="@string/delete"
+        android:showAsAction="never" />
+</menu>

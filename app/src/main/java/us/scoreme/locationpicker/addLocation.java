@@ -10,10 +10,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -25,7 +26,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 
 public class addLocation extends FragmentActivity {
-
 
     public GoogleMap mMap; // Might be null if Google Play services APK is not available.
     public String name;
@@ -45,7 +45,7 @@ public class addLocation extends FragmentActivity {
         //show error dialog if GoolglePlayServices not available
         if (!isGooglePlayServicesAvailable()) {
             finish();
-            Log.e("need google play service", "reported as not avai");
+            Log.e("need gpd", "google play reported as not avail");
         }
         //fusedLocationService = new FusedLocationService(this);
         //Location location = fusedLocationService.getLocation();
@@ -56,6 +56,7 @@ public class addLocation extends FragmentActivity {
             Criteria criteria = new Criteria();
             String provider = locationManager.getBestProvider(criteria, true);
             Location location1 = locationManager.getLastKnownLocation(provider);
+            name="";
 
             if (null != location1) {
                 lat = location1.getLatitude();
@@ -64,9 +65,8 @@ public class addLocation extends FragmentActivity {
                 String lats = String.valueOf(lat);
                 String lngs = String.valueOf(lng);
 
-                Log.e("test co", lats + "," + lngs);
             } else {
-                Log.e("test co", "rats: still no location");
+                Log.e("no location", "rats");
                 lat = 0;
                 lng = 0;
             }
@@ -82,7 +82,31 @@ public class addLocation extends FragmentActivity {
         }
 
         setContentView(R.layout.add_location);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         setUpMapIfNeeded();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.addlocation_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.delete:
+                Intent intent = new Intent(getApplicationContext(), startApp.class);
+                intent.putExtra("name",name);
+                intent.putExtra("mode","delete");
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -115,13 +139,9 @@ public class addLocation extends FragmentActivity {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
                 String my = mMap.getCameraPosition().target.toString();
-                Log.i("mapsactivity:", my);
-
                 LatLng move = mMap.getCameraPosition().target;
-
                 newlat = move.latitude;
                 newlng = move.longitude;
-
             }
         });
 
@@ -136,12 +156,6 @@ public class addLocation extends FragmentActivity {
             return false;
         }
 
-    }
-
-    public void backButton(View view) {
-        ImageView overlay1= (ImageView) findViewById(R.id.myOverlay);
-        overlay1.setVisibility(View.GONE);
-        Toast.makeText(this, "clicked back...", Toast.LENGTH_SHORT).show();
     }
 
     public void nextButton(View view){
@@ -159,6 +173,8 @@ public class addLocation extends FragmentActivity {
         final EditText userInput = (EditText) promptsView
                 .findViewById(R.id.txt_your_name);
 
+        userInput.setText(name);
+
         // set dialog message
         alertDialogBuilder
                 .setCancelable(false)
@@ -168,24 +184,23 @@ public class addLocation extends FragmentActivity {
                                 // get user input and set it to result
                                 // edit text
                                 //result.setText(userInput.getText());
-                                String name = userInput.getText().toString();
+                                name = userInput.getText().toString();
                                 if (name.length() > 0) {
-                                    Log.e("textlength",String.valueOf(name.length()));
                                     Log.e("text entered",name);
                                     Log.e("lat",String.valueOf(newlat));
-                                    Log.e("lng",String.valueOf(newlat));
+                                    Log.e("lng",String.valueOf(newlng));
                                     Intent intent = new Intent(getApplicationContext(), startApp.class);
                                     intent.putExtra("name",name);
                                     intent.putExtra("lat",String.valueOf(newlat));
                                     intent.putExtra("lng", String.valueOf(newlng));
                                     intent.putExtra("mode", mode);
-                                    startActivity(intent);                               }
-                            Log.e("text entered",name);
+                                    startActivity(intent);
+                                }
                         }
     })
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
                         });

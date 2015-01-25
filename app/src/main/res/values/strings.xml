@@ -8,7 +8,7 @@
     <string name="glogin">G+ Sign in</string>
     <string name="webview">Data</string>
     <string name="addLocation">Add a location</string>
-
+    <string name="delete">Delete</string>
 
     <string name="circles_title">Visible circles:</string>
     <string name="sign_out_button_name">Sign out</string>
