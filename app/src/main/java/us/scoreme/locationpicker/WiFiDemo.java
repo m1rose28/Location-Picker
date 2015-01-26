@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -60,12 +59,12 @@ public class WiFiDemo extends Activity {
 
                 ScanResult x=wifiScanList.get(i);
 
-                Log.e("WifiBroadCastReceiver-SSID",x.SSID);
-                Log.e("WifiBroadCastReceiver-BSSID",x.BSSID);
-                Log.e("WifiBroadCastReceiver-capabilities",x.capabilities);
-                Log.e("WifiBroadCastReceiver-frequency",Integer.toString(x.frequency));
-                Log.e("WifiBroadCastReceiver-level",Integer.toString(x.level));
-                Log.e("WifiBroadCastReceiver-timestamp",Long.toString(x.timestamp));
+                //Log.e("WifiBroadCastReceiver-SSID", x.SSID);
+                //Log.e("WifiBroadCastReceiver-BSSID",x.BSSID);
+                //Log.e("WifiBroadCastReceiver-capabilities",x.capabilities);
+                //Log.e("WifiBroadCastReceiver-frequency",Integer.toString(x.frequency));
+                //Log.e("WifiBroadCastReceiver-level",Integer.toString(x.level));
+                //Log.e("WifiBroadCastReceiver-timestamp",Long.toString(x.timestamp));
                 long unixTime = System.currentTimeMillis() / 1000L;
 
                 String data="SSID="+
@@ -83,7 +82,7 @@ public class WiFiDemo extends Activity {
                 myServiceIntent.putExtra("event","scan");
                 myServiceIntent.putExtra("data",data);
                 myServiceIntent.putExtra("url", url);
-                c.startService(myServiceIntent);
+                //c.startService(myServiceIntent);
             }
 
             list.setAdapter(new ArrayAdapter<String>(c,

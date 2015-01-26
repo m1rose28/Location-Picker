@@ -5,90 +5,120 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.net.URLEncoder;
+import java.util.List;
 
 public class WifiBroadCastReceiver extends BroadcastReceiver {
 
+    WifiManager mainWifi;
+
     @Override
-    public void onReceive(Context context, Intent intent)
-    {
+    public void onReceive(Context context, Intent intent) {
+        String i1 = intent.toString();
+        mainWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
-        String i=intent.toString();
+        if (i1.equals("Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 cmp=us.scoreme.locationpicker/.WifiBroadCastReceiver }")) {
 
-        Bundle bundle=intent.getExtras();
+            List<ScanResult> wifiList = mainWifi.getScanResults();
+            Log.e("wifilist", wifiList.toString());
 
-        for (String key : bundle.keySet()) {
-            Object value = bundle.get(key);
-            i=i+":"+key+"->"+value.toString()+":";
-            Log.e("key|"+key+":", value.toString());
+            for (int i = 0; i < wifiList.size(); i++) {
+
+                ScanResult x = wifiList.get(i);
+
+                Log.e("scan", x.BSSID);
+                Log.e("WifiBroadCastReceiver-SSID", x.SSID);
+                Log.e("WifiBroadCastReceiver-BSSID", x.BSSID);
+                Log.e("WifiBroadCastReceiver-capabilities", x.capabilities);
+                Log.e("WifiBroadCastReceiver-frequency", Integer.toString(x.frequency));
+                Log.e("WifiBroadCastReceiver-level", Integer.toString(x.level));
+                Log.e("WifiBroadCastReceiver-timestamp", Long.toString(x.timestamp));
+                long unixTime = System.currentTimeMillis() / 1000L;
+
+                String data = "SSID=" +
+                        URLEncoder.encode(x.SSID) + "&BSSID=" +
+                        URLEncoder.encode(x.BSSID) + "&capabilities=" +
+                        URLEncoder.encode(x.capabilities) + "&frequency=" +
+                        URLEncoder.encode(Integer.toString(x.frequency)) + "&level=" +
+                        URLEncoder.encode(Integer.toString(x.level)) + "&ts=" +
+                        URLEncoder.encode(Long.toString(unixTime)) +
+                        "&userid=" + sph.getSharedPreferenceString(context, "userid", "0");
+
+                String url = "http://www.scoreme.us/a.php";
+
+                //Intent myServiceIntent = new Intent(c, httpRequest2.class);
+                //myServiceIntent.putExtra("event","scan");
+                //myServiceIntent.putExtra("data",data);
+                //myServiceIntent.putExtra("url", url);
+                //c.startService(myServiceIntent);
+            }
+
         }
 
-        Log.e("wifi change detected!", i);
+        if (i1.equals("Intent { act=android.net.conn.CONNECTIVITY_CHANGE flg=0x4000010 cmp=us.scoreme.locationpicker/.WifiBroadCastReceiver (has extras) }")) {
 
+            Log.e("wifi change detected!", i1);
 
-        //Toast.makeText(context, "wifi change detected", Toast.LENGTH_SHORT).show();
+            //Context appContext = context.getApplicationContext();
 
-        Context appContext = context.getApplicationContext();
+            Intent resultIntent = new Intent(context, webview.class);
+            resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        Intent resultIntent = new Intent(appContext, webview.class);
-        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //Intent resultIntent = new Intent(Intent.ACTION_VIEW);
+            //resultIntent.setData(Uri.parse(link));
 
-        //Intent resultIntent = new Intent(Intent.ACTION_VIEW);
-        //resultIntent.setData(Uri.parse(link));
+            PendingIntent pending = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        PendingIntent pending = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(context)
+                            .setSmallIcon(R.drawable.myicon)
+                            .setContentTitle("New wifi change")
+                            .setContentText("view latest details...")
+                            .setContentIntent(pending);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(appContext)
-                        .setSmallIcon(R.drawable.myicon)
-                        .setContentTitle("New wifi change")
-                        .setContentText("view latest details...")
-                        .setContentIntent(pending);
+            NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(1, mBuilder.build());
 
-        mNotificationManager.notify(1, mBuilder.build());
+            String url = "http://www.scoreme.us/a.php";
+            String ts = String.valueOf(System.currentTimeMillis() / 1000L);
+            String userid = sph.getSharedPreferenceString(context, "userid", "0");
 
-        String url="http://www.scoreme.us/a.php";
-        String ts=String.valueOf(System.currentTimeMillis() / 1000L);
-        String userid=sph.getSharedPreferenceString(appContext,"userid","0");
+            String data = "userid=" + userid + "&ts=" + ts + "&changeevent=" + URLEncoder.encode(i1);
 
-        String data= "userid="+userid+"&ts="+ts+"&changeevent="+URLEncoder.encode(i);
+            Intent myServiceIntent = new Intent(context, httpRequest2.class);
+            myServiceIntent.putExtra("event", "change");
+            myServiceIntent.putExtra("data", data);
+            myServiceIntent.putExtra("url", url);
+            context.startService(myServiceIntent);
 
-        Intent myServiceIntent = new Intent(appContext, httpRequest2.class);
-        myServiceIntent.putExtra("event","change");
-        myServiceIntent.putExtra("data",data);
-        myServiceIntent.putExtra("url", url);
-        appContext.startService(myServiceIntent);
+            String lastScanTimeString = sph.getSharedPreferenceString(context, "scantime", "0");
 
-        String lastScanTimeString=sph.getSharedPreferenceString(appContext,"scantime","0");
+            Log.e("lastScanTimeString", lastScanTimeString);
+            int elapsedTime = 0;
 
-        Log.e("lastScanTimeString",lastScanTimeString);
-        int elapsedTime=0;
+            if (!lastScanTimeString.equals("0")) {
+                int lastScanTimeLong = Integer.valueOf(lastScanTimeString);
+                int timeNowLong = Integer.valueOf(ts);
+                elapsedTime = timeNowLong - lastScanTimeLong;
+                Log.e("elapsed time", String.valueOf(elapsedTime));
+            }
+            if (elapsedTime > 60 || elapsedTime == 0) {
+                Intent scan = new Intent(context, WiFiDemo.class);
+                scan.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(scan);
+                sph.setSharedPreferenceString(context, "scantime", ts);
+                Log.e("lastscan", ts);
+                Log.e("WifiBroadCastReceiver:", "ok moving on");
+            } else {
+                Log.e("scan aborted", "you already have a fresh scan - go fish");
+            }
 
-        if(!lastScanTimeString.equals("0")) {
-            int lastScanTimeLong = Integer.valueOf(lastScanTimeString);
-            int timeNowLong = Integer.valueOf(ts);
-            elapsedTime = timeNowLong-lastScanTimeLong;
-            Log.e("elapsed time",String.valueOf(elapsedTime));
-         }
-        if(elapsedTime>60 || elapsedTime==0){
-            Intent scan = new Intent(appContext, WiFiDemo.class);
-            scan.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            appContext.startActivity(scan);
-            sph.setSharedPreferenceString(appContext,"scantime",ts);
-            Log.e("lastscan",ts);
-            Log.e("WifiBroadCastReceiver:","ok moving on");
         }
-
-        else {
-            Log.e("scan aborted", "you already have a fresh scan - go fish");
-        }
-
     }
-
 }
