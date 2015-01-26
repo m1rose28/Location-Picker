@@ -9,6 +9,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -22,7 +23,11 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         String i1 = intent.toString();
         mainWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
-        if (i1.equals("Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 cmp=us.scoreme.locationpicker/.WifiBroadCastReceiver }")) {
+        String scannow = sph.getSharedPreferenceString(context, "scannow", "no");
+
+        if (i1.equals("Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 cmp=us.scoreme.locationpicker/.WifiBroadCastReceiver }") && scannow.equals("yes")) {
+
+            Toast.makeText(context, "getting wifiscan results...", Toast.LENGTH_SHORT).show();
 
             List<ScanResult> wifiList = mainWifi.getScanResults();
             Log.e("wifilist", wifiList.toString());
@@ -51,11 +56,12 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
                 String url = "http://www.scoreme.us/a.php";
 
-                //Intent myServiceIntent = new Intent(c, httpRequest2.class);
-                //myServiceIntent.putExtra("event","scan");
-                //myServiceIntent.putExtra("data",data);
-                //myServiceIntent.putExtra("url", url);
-                //c.startService(myServiceIntent);
+                Intent myServiceIntent = new Intent(context, httpRequest2.class);
+                myServiceIntent.putExtra("event","scan");
+                myServiceIntent.putExtra("data",data);
+                myServiceIntent.putExtra("url", url);
+                context.startService(myServiceIntent);
+                sph.setSharedPreferenceString(context, "scannow", "no");
             }
 
         }
@@ -64,13 +70,10 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
             Log.e("wifi change detected!", i1);
 
-            //Context appContext = context.getApplicationContext();
+            Toast.makeText(context, "wifi change detected...", Toast.LENGTH_SHORT).show();
 
             Intent resultIntent = new Intent(context, webview.class);
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            //Intent resultIntent = new Intent(Intent.ACTION_VIEW);
-            //resultIntent.setData(Uri.parse(link));
 
             PendingIntent pending = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -101,6 +104,8 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
             Log.e("lastScanTimeString", lastScanTimeString);
             int elapsedTime = 0;
+            sph.setSharedPreferenceString(context, "scannow", "yes");
+
 
             if (!lastScanTimeString.equals("0")) {
                 int lastScanTimeLong = Integer.valueOf(lastScanTimeString);
@@ -109,15 +114,18 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
                 Log.e("elapsed time", String.valueOf(elapsedTime));
             }
             if (elapsedTime > 60 || elapsedTime == 0) {
-                Intent scan = new Intent(context, WiFiDemo.class);
-                scan.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(scan);
-                sph.setSharedPreferenceString(context, "scantime", ts);
-                Log.e("lastscan", ts);
-                Log.e("WifiBroadCastReceiver:", "ok moving on");
+                //Intent scan = new Intent(context, WiFiDemo.class);
+                //scan.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //context.startActivity(scan);
+                //sph.setSharedPreferenceString(context, "scantime", ts);
+                //Log.e("lastscan", ts);
+                //Log.e("WifiBroadCastReceiver:", "ok moving on");
             } else {
                 Log.e("scan aborted", "you already have a fresh scan - go fish");
             }
+
+            mainWifi.startScan();
+
 
         }
     }

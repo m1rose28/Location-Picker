@@ -59,8 +59,8 @@ public class startActivity extends Activity implements httpReply {
 
     public void startScan(View view) {
         Toast.makeText(this, "starting scan...", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, WiFiDemo.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, WiFiDemo.class);
+        //startActivity(intent);
     }
 
     public void startloginActivity(View view) {

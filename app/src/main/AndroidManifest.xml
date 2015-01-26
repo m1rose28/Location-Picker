@@ -33,11 +33,6 @@
             android:parentActivityName=".startActivity" >
         </activity>
         <activity
-            android:name=".WiFiDemo"
-            android:label="@string/wifidemo"
-            android:theme="@android:style/Theme.NoDisplay">
-        </activity>
-        <activity
             android:name=".webview"
             android:label="@string/webview"
             android:parentActivityName=".startActivity" >
