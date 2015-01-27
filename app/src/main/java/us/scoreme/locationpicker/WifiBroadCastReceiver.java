@@ -5,6 +5,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.support.v4.app.NotificationCompat;
@@ -17,6 +20,8 @@ import java.util.List;
 public class WifiBroadCastReceiver extends BroadcastReceiver {
 
     WifiManager mainWifi;
+    public String lats;
+    public String lngs;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -24,6 +29,21 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         mainWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
         String scannow = sph.getSharedPreferenceString(context, "scannow", "no");
+
+        //get last known location data for context
+        LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, true);
+        Location location1 = locationManager.getLastKnownLocation(provider);
+
+        if (null != location1) {
+            lats = String.valueOf(location1.getLatitude());
+            lngs = String.valueOf(location1.getLongitude());
+        } else {
+            Log.e("no location", "rats");
+            lats="0";
+            lngs="0";
+        }
 
         if (i1.equals("Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 cmp=us.scoreme.locationpicker/.WifiBroadCastReceiver }") && scannow.equals("yes")) {
 
@@ -52,7 +72,11 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
                         URLEncoder.encode(Integer.toString(x.frequency)) + "&level=" +
                         URLEncoder.encode(Integer.toString(x.level)) + "&ts=" +
                         URLEncoder.encode(Long.toString(unixTime)) +
-                        "&userid=" + sph.getSharedPreferenceString(context, "userid", "0");
+                        "&userid=" + sph.getSharedPreferenceString(context, "userid", "0")+
+                        "&lat="+lats +
+                        "&lng="+lngs;
+
+                Log.e("getlatlng?", data);
 
                 String url = "http://www.scoreme.us/a.php";
 
@@ -92,7 +116,11 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             String ts = String.valueOf(System.currentTimeMillis() / 1000L);
             String userid = sph.getSharedPreferenceString(context, "userid", "0");
 
-            String data = "userid=" + userid + "&ts=" + ts + "&changeevent=" + URLEncoder.encode(i1);
+            String data = "userid=" + userid +
+                    "&ts=" + ts +
+                    "&changeevent=" + URLEncoder.encode(i1) +
+                    "&lat="+lats +
+                    "&lng="+lngs;
 
             Intent myServiceIntent = new Intent(context, httpRequest2.class);
             myServiceIntent.putExtra("event", "change");
@@ -102,7 +130,6 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
             String lastScanTimeString = sph.getSharedPreferenceString(context, "scantime", "0");
 
-            Log.e("lastScanTimeString", lastScanTimeString);
             int elapsedTime = 0;
             sph.setSharedPreferenceString(context, "scannow", "yes");
 
@@ -111,21 +138,14 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
                 int lastScanTimeLong = Integer.valueOf(lastScanTimeString);
                 int timeNowLong = Integer.valueOf(ts);
                 elapsedTime = timeNowLong - lastScanTimeLong;
-                Log.e("elapsed time", String.valueOf(elapsedTime));
             }
             if (elapsedTime > 60 || elapsedTime == 0) {
-                //Intent scan = new Intent(context, WiFiDemo.class);
-                //scan.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                //context.startActivity(scan);
-                //sph.setSharedPreferenceString(context, "scantime", ts);
-                //Log.e("lastscan", ts);
-                //Log.e("WifiBroadCastReceiver:", "ok moving on");
+
+                mainWifi.startScan();
+
             } else {
                 Log.e("scan aborted", "you already have a fresh scan - go fish");
             }
-
-            mainWifi.startScan();
-
 
         }
     }
