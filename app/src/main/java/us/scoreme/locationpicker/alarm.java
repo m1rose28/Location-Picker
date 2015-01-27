@@ -26,7 +26,6 @@ public class alarm extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         Toast.makeText(context, "Geo-wifi ping posted hoss!", Toast.LENGTH_LONG).show();
-        Log.e("test","alarm set!");
 
         //get last known location data for context
         LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);

@@ -47,8 +47,6 @@ public class addLocation extends FragmentActivity {
             finish();
             Log.e("need gpd", "google play reported as not avail");
         }
-        //fusedLocationService = new FusedLocationService(this);
-        //Location location = fusedLocationService.getLocation();
 
         if (mode.equals("new")) {
             setTitle("Add a new location");
@@ -183,7 +181,6 @@ public class addLocation extends FragmentActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 // get user input and set it to result
                                 // edit text
-                                //result.setText(userInput.getText());
                                 name = userInput.getText().toString();
                                 if (name.length() > 0) {
                                     Log.e("text entered",name);

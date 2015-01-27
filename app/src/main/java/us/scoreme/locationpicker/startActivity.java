@@ -38,9 +38,6 @@ public class startActivity extends Activity implements httpReply {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        myLocations m=new myLocations();
-        m.myapp();
-
         int interval=1000*60*15; // every 15 minutes
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
