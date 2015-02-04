@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,6 +27,16 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String i1 = intent.toString();
+        Bundle bundle = intent.getExtras();
+
+        if(bundle!=null){
+            for (String key : bundle.keySet()) {
+                Object value = bundle.get(key);
+                Log.d("wifitag", String.format("%s %s (%s)", key,
+                        value.toString(), value.getClass().getName()));
+            }
+        }
+
         mainWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
         String scannow = sph.getSharedPreferenceString(context, "scannow", "no");
@@ -93,6 +104,8 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         if (i1.equals("Intent { act=android.net.conn.CONNECTIVITY_CHANGE flg=0x4000010 cmp=us.scoreme.locationpicker/.WifiBroadCastReceiver (has extras) }")) {
 
             Log.e("wifi change detected!", i1);
+
+
 
             Toast.makeText(context, "wifi change detected...", Toast.LENGTH_SHORT).show();
 
