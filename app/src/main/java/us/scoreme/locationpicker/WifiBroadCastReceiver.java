@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -21,6 +24,7 @@ import java.util.List;
 public class WifiBroadCastReceiver extends BroadcastReceiver {
 
     WifiManager mainWifi;
+    ConnectivityManager connection;
     public String lats;
     public String lngs;
 
@@ -28,16 +32,38 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String i1 = intent.toString();
         Bundle bundle = intent.getExtras();
+        String x1="details:";
+        String bundleDetails;
 
         if(bundle!=null){
             for (String key : bundle.keySet()) {
                 Object value = bundle.get(key);
-                Log.d("wifitag", String.format("%s %s (%s)", key,
-                        value.toString(), value.getClass().getName()));
+                bundleDetails=String.format("%s %s (%s)", key,
+                        value.toString(), value.getClass().getName());
+                Log.d("wifitag", bundleDetails);
+                x1=x1+bundleDetails+",";
             }
         }
 
         mainWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+
+        connection = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo activeNetwork = connection.getActiveNetworkInfo();
+        NetworkInfo.State state=activeNetwork.getState();
+        String state1=String.valueOf(state);
+        String type=activeNetwork.getTypeName();
+        Log.e("state",state1+type);
+
+        if(state1.equals("CONNECTED") && type.equals("WIFI")){
+            final WifiInfo wifinfo = mainWifi.getConnectionInfo();
+            String mynet = wifinfo.getSSID();
+            Log.e("state",mynet);
+         }
+
+        if(type.equals("MOBILE")){
+            Log.e("state","you're connected to mobile");
+        }
+
 
         String scannow = sph.getSharedPreferenceString(context, "scannow", "no");
 
@@ -131,7 +157,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
             String data = "userid=" + userid +
                     "&ts=" + ts +
-                    "&changeevent=" + URLEncoder.encode(i1) +
+                    "&changeevent=" + URLEncoder.encode(i1) + URLEncoder.encode(x1)+
                     "&lat="+lats +
                     "&lng="+lngs;
 
