@@ -58,10 +58,12 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             final WifiInfo wifinfo = mainWifi.getConnectionInfo();
             String mynet = wifinfo.getSSID();
             Log.e("state",mynet);
+            x1=x1+"welcometomynet";
          }
 
         if(type.equals("MOBILE")){
             Log.e("state","you're connected to mobile");
+            x1=x1+"seeya";
         }
 
 
