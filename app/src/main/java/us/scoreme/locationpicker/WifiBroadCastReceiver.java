@@ -30,10 +30,11 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String i1 = intent.toString();
+        String i1 = intent.getAction();
         Bundle bundle = intent.getExtras();
         String x1="details:";
         String bundleDetails;
+        String myLocation = sph.getSharedPreferenceString(context, "myLocation", "unknown");
 
         if(bundle!=null){
             for (String key : bundle.keySet()) {
@@ -58,14 +59,19 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             final WifiInfo wifinfo = mainWifi.getConnectionInfo();
             String mynet = wifinfo.getSSID();
             Log.e("state",mynet);
-            x1=x1+"welcometomynet";
+            if(!myLocation.equals(mynet)){
+                sph.setSharedPreferenceString(context, "myLocation", mynet);
+                x1=x1+"welcometo:"+mynet;
+            }
          }
 
         if(type.equals("MOBILE")){
             Log.e("state","you're connected to mobile");
-            x1=x1+"seeya";
+            int myLocationCheck=Integer.parseInt((sph.getSharedPreferenceString(context, "myLocationCheck", "0")));
+            myLocationCheck++;
+            sph.setSharedPreferenceString(context, "myLocationCheck", String.valueOf(myLocationCheck));
+            x1=x1+"seeya?";
         }
-
 
         String scannow = sph.getSharedPreferenceString(context, "scannow", "no");
 
@@ -84,16 +90,22 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             lngs="0";
         }
 
-        if (i1.equals("Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 cmp=us.scoreme.locationpicker/.WifiBroadCastReceiver }") && scannow.equals("yes")) {
+        //if the intent has scan results go ahead and get that
 
-            Toast.makeText(context, "getting wifiscan results...", Toast.LENGTH_SHORT).show();
+        if (i1.equals("android.net.wifi.SCAN_RESULTS") && scannow.equals("yes")) {
 
             List<ScanResult> wifiList = mainWifi.getScanResults();
             Log.e("wifilist", wifiList.toString());
+            String locationFound="0";
 
             for (int i = 0; i < wifiList.size(); i++) {
 
                 ScanResult x = wifiList.get(i);
+
+                if(x.BSSID.equals(myLocation)){
+                    locationFound="1";
+                    Log.e("state","not connected but I found you");
+                }
 
                 Log.e("scan", x.BSSID);
                 Log.e("WifiBroadCastReceiver-SSID", x.SSID);
@@ -127,13 +139,54 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
                 sph.setSharedPreferenceString(context, "scannow", "no");
             }
 
+            if(locationFound.equals("0")){
+                sph.setSharedPreferenceString(context, "myLocation", "unknown");
+                Log.e("state","looks like you really exited");
+            }
+
         }
 
-        if (i1.equals("Intent { act=android.net.conn.CONNECTIVITY_CHANGE flg=0x4000010 cmp=us.scoreme.locationpicker/.WifiBroadCastReceiver (has extras) }")) {
+        //this checks for supplicant state change
 
-            Log.e("wifi change detected!", i1);
+        if(i1.equals("android.net.wifi.supplicant.STATE_CHANGE")){
+            String url = "http://www.scoreme.us/a.php";
+            String ts = String.valueOf(System.currentTimeMillis() / 1000L);
+            String userid = sph.getSharedPreferenceString(context, "userid", "0");
+
+            String data = "userid=" + userid +
+                    "&ts=" + ts +
+                    "&changeevent=" + URLEncoder.encode(i1)+URLEncoder.encode(" supplicant change ")+
+                    "&lat="+lats +
+                    "&lng="+lngs;
+
+            Intent myServiceIntent = new Intent(context, httpRequest2.class);
+            myServiceIntent.putExtra("event", "change");
+            myServiceIntent.putExtra("data", data);
+            myServiceIntent.putExtra("url", url);
+            context.startService(myServiceIntent);
+
+            String lastScanTimeString = sph.getSharedPreferenceString(context, "scantime", "0");
+
+            int elapsedTime = 0;
+            sph.setSharedPreferenceString(context, "scannow", "yes");
 
 
+            if (!lastScanTimeString.equals("0")) {
+                int lastScanTimeLong = Integer.valueOf(lastScanTimeString);
+                int timeNowLong = Integer.valueOf(ts);
+                elapsedTime = timeNowLong - lastScanTimeLong;
+            }
+            if (elapsedTime > 60 || elapsedTime == 0) {
+
+                mainWifi.startScan();
+
+            } else {
+                Log.e("scan aborted", "you already have a fresh scan - go fish");
+            }
+
+        }
+
+        if (i1.equals("android.net.conn.CONNECTIVITY_CHANGE")) {
 
             Toast.makeText(context, "wifi change detected...", Toast.LENGTH_SHORT).show();
 

@@ -14,6 +14,7 @@ public class startActivity extends Activity implements httpReply {
     private PendingIntent pendingIntent;
     public String userid;
 
+
     @Override
     public void updateActivity(String result){
         Toast.makeText(this, result, Toast.LENGTH_SHORT).show();

@@ -51,10 +51,11 @@
             android:name=".addLocation"
             android:label="@string/addLocation"
             android:parentActivityName=".startApp" >
-        </activity>        <activity
+        </activity>
+        <activity
             android:name=".startActivity"
             android:launchMode="singleTop"
-            android:label="@string/startapp" >
+            android:label="@string/startapp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -67,6 +68,7 @@
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.SCAN_RESULTS"/>
+                <action android:name="android.net.wifi.supplicant.STATE_CHANGE"/>
             </intent-filter>
         </receiver>
     </application>
