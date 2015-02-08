@@ -13,7 +13,7 @@ public class startActivity extends Activity implements httpReply {
 
     private PendingIntent pendingIntent;
     public String userid;
-
+    playClip p1=new playClip();
 
     @Override
     public void updateActivity(String result){
@@ -28,6 +28,8 @@ public class startActivity extends Activity implements httpReply {
             Intent intent = new Intent(this, coverActivity.class);
             startActivity(intent);
         }
+
+        p1.init(this,"-");
 
         setContentView(R.layout.start_page);
 
@@ -56,10 +58,9 @@ public class startActivity extends Activity implements httpReply {
     }
 
     public void startScan(View view) {
-        Toast.makeText(this, "starting scan...", Toast.LENGTH_SHORT).show();
-        //Intent intent = new Intent(this, WiFiDemo.class);
-        //startActivity(intent);
+        p1.playClip("did it work");
     }
+
 
     public void startloginActivity(View view) {
         Intent intent = new Intent(this, gloginActivity.class);
@@ -80,6 +81,25 @@ public class startActivity extends Activity implements httpReply {
         String a="43";
         new httpRequest(this).execute("http://www.scoreme.us/a.php?r=1",a,"apple");
     }
+
+    @Override
+    public void onDestroy(){
+        p1.onPause();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onPause(){
+        p1.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onStop(){
+        p1.onPause();
+        super.onStop();
+    }
+
 
 }
 

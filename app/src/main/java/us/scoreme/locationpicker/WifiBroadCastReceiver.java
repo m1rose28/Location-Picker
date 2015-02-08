@@ -222,6 +222,10 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             myServiceIntent.putExtra("url", url);
             context.startService(myServiceIntent);
 
+            Intent myServiceIntent1 = new Intent(context, playClipIntent.class);
+            myServiceIntent1.putExtra("toSpeak", "data changed");
+            //context.startService(myServiceIntent1);
+
             String lastScanTimeString = sph.getSharedPreferenceString(context, "scantime", "0");
 
             int elapsedTime = 0;
