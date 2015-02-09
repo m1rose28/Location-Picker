@@ -26,6 +26,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
     ConnectivityManager connection;
     public String lats;
     public String lngs;
+    public locationData locationData=new locationData();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -53,7 +54,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         String type=activeNetwork.getTypeName();
 
         if(state1.equals("CONNECTED") && type.equals("WIFI")){
-            final WifiInfo wifinfo = mainWifi.getConnectionInfo();
+            WifiInfo wifinfo = mainWifi.getConnectionInfo();
             String mynet = wifinfo.getSSID();
             if(!myLocation.equals(mynet)){
                 sph.setSharedPreferenceString(context, "myLocation", mynet);
@@ -125,6 +126,9 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
                 context.startService(myServiceIntent);
                 sph.setSharedPreferenceString(context, "scannow", "no");
             }
+
+            WifiInfo wifinfo = mainWifi.getConnectionInfo();
+            locationData.addValidLocation(context,Double.valueOf(lats),Double.valueOf(lngs),wifinfo.getSSID(),wifiList);
 
             if(locationFound.equals("0")){
                 sph.setSharedPreferenceString(context, "myLocation", "unknown");
