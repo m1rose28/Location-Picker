@@ -29,8 +29,6 @@ class httpRequest extends AsyncTask<String, String, String> {
         String responseString = null;
         try {
             response = httpclient.execute(new HttpGet(uri[0]));
-            Log.e("httprequest",uri[1]);
-            Log.e("httprequest",uri[2]);
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
                 ByteArrayOutputStream out = new ByteArrayOutputStream();

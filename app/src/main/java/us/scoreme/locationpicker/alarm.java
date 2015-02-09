@@ -52,18 +52,18 @@ public class alarm extends BroadcastReceiver {
             if(wifiInfo.getBSSID()!=null){
                 BSSID = wifiInfo.getBSSID();
                 SSID = wifiInfo.getSSID();
-                Log.e("wifi state",supState+":"+BSSID);
-                Log.e("wifi state",supState+":"+SSID);
+                //Log.e("wifi state",supState+":"+BSSID);
+                //Log.e("wifi state",supState+":"+SSID);
             }
             else {
-                Log.e("wifi state","not connected");
+                //Log.e("wifi state","not connected");
                 BSSID="nada";
                 SSID="nada";
             }
         }
 
         String network = String.valueOf(wifiInfo.getNetworkId());
-        Log.e("network",network);
+        //Log.e("network",network);
         long unixTime = System.currentTimeMillis() / 1000L;
 
         String data = "SSID=" + URLEncoder.encode(SSID) +
@@ -73,7 +73,7 @@ public class alarm extends BroadcastReceiver {
                 "&lng="+lngs +
                 "&ts=" + URLEncoder.encode(Long.toString(unixTime));
 
-        Log.e("senddata", data);
+        //Log.e("senddata", data);
 
         String url = "http://www.scoreme.us/a.php";
 

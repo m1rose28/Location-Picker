@@ -2,7 +2,6 @@ package us.scoreme.locationpicker;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 
 import java.util.Locale;
 
@@ -37,7 +36,7 @@ public class playClip {
         if(ttobject !=null){
             ttobject.stop();
             ttobject.shutdown();
-            Log.e("state","tts shut down");
+            //Log.e("state","tts shut down");
         }
     }
 

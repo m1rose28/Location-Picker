@@ -24,6 +24,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Random;
+
 
 public class addLocation extends FragmentActivity {
 
@@ -34,6 +36,7 @@ public class addLocation extends FragmentActivity {
     public double newlat;
     public double newlng;
     public String mode;
+    public String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,9 @@ public class addLocation extends FragmentActivity {
             String provider = locationManager.getBestProvider(criteria, true);
             Location location1 = locationManager.getLastKnownLocation(provider);
             name="";
+            Random r = new Random();
+            double i1 = r.nextInt(9000000 - 1000000) + 1000000;
+            userid=String.valueOf((i1));
 
             if (null != location1) {
                 lat = location1.getLatitude();
@@ -71,6 +77,7 @@ public class addLocation extends FragmentActivity {
         }
 
         if (mode.equals("edit")) {
+            userid = intent.getStringExtra("userid");
             name = intent.getStringExtra("name");
             String lats = intent.getStringExtra("lat");
             String lngs = intent.getStringExtra("lng");
@@ -183,10 +190,8 @@ public class addLocation extends FragmentActivity {
                                 // edit text
                                 name = userInput.getText().toString();
                                 if (name.length() > 0) {
-                                    Log.e("text entered",name);
-                                    Log.e("lat",String.valueOf(newlat));
-                                    Log.e("lng",String.valueOf(newlng));
                                     Intent intent = new Intent(getApplicationContext(), startApp.class);
+                                    intent.putExtra("userid",userid);
                                     intent.putExtra("name",name);
                                     intent.putExtra("lat",String.valueOf(newlat));
                                     intent.putExtra("lng", String.valueOf(newlng));

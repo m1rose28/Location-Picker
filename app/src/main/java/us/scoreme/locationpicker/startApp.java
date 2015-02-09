@@ -4,7 +4,6 @@ import android.app.ListActivity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -24,6 +23,8 @@ public class startApp extends ListActivity implements httpReply {
     public String lat;
     public String lng;
     public String name;
+    public JSONArray bssid;
+    public String ssid;
 
     ArrayList<String> addressList1 = new ArrayList<String>();
 
@@ -35,9 +36,12 @@ public class startApp extends ListActivity implements httpReply {
     }
 
     protected void onCreate(Bundle savedInstanceState) {
+
+        locationData locationData=new locationData();
+
         super.onCreate(savedInstanceState);
-        userid=sph.getSharedPreferenceString(this,"userid","0");
-        addressList=sph.getSharedPreferenceString(getApplicationContext(),"addressList","[]");
+        userid=locationData.getUserID(this);
+        addressList=locationData.getLocations(this);
 
         if(userid.equals("0")){
             Intent intent = new Intent(this, coverActivity.class);
@@ -50,6 +54,7 @@ public class startApp extends ListActivity implements httpReply {
         if(mode==null){mode="nothing";}
 
         if(mode.equals("edit")) {
+            userid = intent.getStringExtra("userid");
             lat = intent.getStringExtra("lat");
             lng = intent.getStringExtra("lng");
             name = intent.getStringExtra("name");
@@ -62,50 +67,36 @@ public class startApp extends ListActivity implements httpReply {
                 lat = intent.getStringExtra("lat");
                 lng = intent.getStringExtra("lng");
                 name = intent.getStringExtra("name");
-
-                JSONObject newadd=new JSONObject();
-                newadd.put("name",name);
-                newadd.put("lat",lat);
-                newadd.put("lng",lng);
-                addresses.put(addresses.length(), newadd);
-                String newaddarray=addresses.toString();
-                sph.setSharedPreferenceString(getApplicationContext(),"addressList",newaddarray);
+                userid = intent.getStringExtra("userid");
+                addresses=locationData.addLocation(this, userid, lat, lng, name, ssid, bssid);
             }
+
+            if(mode.equals("edit")) {
+                lat = intent.getStringExtra("lat");
+                lng = intent.getStringExtra("lng");
+                name = intent.getStringExtra("name");
+                userid = intent.getStringExtra("userid");
+                addresses=locationData.editLocation(this, userid, lat, lng, name, ssid, bssid);
+            }
+
 
             if(mode.equals("delete")) {
                 name = intent.getStringExtra("name");
+                addresses=locationData.deleteLocation(this, name);
             }
 
             for(int i=0;i<addresses.length(); i++){
-
                 try {
                     JSONObject adddetail = addresses.getJSONObject(i);
-
                     String name1 = adddetail.getString("name");
-
-                    if(name1.equals(name) && mode.equals("edit")){
-                        adddetail.put("lat",lat);
-                        adddetail.put("lng",lng);
-                        addresses.put(i, adddetail);
-                        String newaddarray=addresses.toString();
-                        sph.setSharedPreferenceString(getApplicationContext(),"addressList",newaddarray);
-                    }
-
-                    if(name1.equals(name) && mode.equals("delete")){
-                        addresses.remove(i);
-                        String newaddarray=addresses.toString();
-                        sph.setSharedPreferenceString(getApplicationContext(),"addressList",newaddarray);
-                        break;
-                    }
-
                     addressList1.add(name1);
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
 
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -126,8 +117,6 @@ public class startApp extends ListActivity implements httpReply {
         try {
             JSONArray addressesEdit = new JSONArray(addressList);
 
-            Log.e("array",addressesEdit.toString());
-
             for(int i=0;i<addressesEdit.length(); i++){
 
                 try {
@@ -137,9 +126,10 @@ public class startApp extends ListActivity implements httpReply {
                     if(name.equals(item)){
                         lat = adddetailEdit.getString("lat");
                         lng = adddetailEdit.getString("lng");
-                        Log.e("clicked","edit:"+name+lat+lng);
+                        userid = adddetailEdit.getString("userid");
 
                         Intent intent = new Intent(this, addLocation.class);
+                        intent.putExtra("userid",userid);
                         intent.putExtra("name",name);
                         intent.putExtra("lat",lat);
                         intent.putExtra("lng", lng);

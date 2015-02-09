@@ -16,7 +16,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -41,7 +40,6 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
                 Object value = bundle.get(key);
                 bundleDetails=String.format("%s %s (%s)", key,
                         value.toString(), value.getClass().getName());
-                Log.d("wifitag", bundleDetails);
                 x1=x1+bundleDetails+",";
             }
         }
@@ -53,12 +51,10 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         NetworkInfo.State state=activeNetwork.getState();
         String state1=String.valueOf(state);
         String type=activeNetwork.getTypeName();
-        Log.e("state",state1+type);
 
         if(state1.equals("CONNECTED") && type.equals("WIFI")){
             final WifiInfo wifinfo = mainWifi.getConnectionInfo();
             String mynet = wifinfo.getSSID();
-            Log.e("state",mynet);
             if(!myLocation.equals(mynet)){
                 sph.setSharedPreferenceString(context, "myLocation", mynet);
                 x1=x1+"welcometo:"+mynet;
@@ -66,7 +62,6 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
          }
 
         if(type.equals("MOBILE")){
-            Log.e("state","you're connected to mobile");
             int myLocationCheck=Integer.parseInt((sph.getSharedPreferenceString(context, "myLocationCheck", "0")));
             myLocationCheck++;
             sph.setSharedPreferenceString(context, "myLocationCheck", String.valueOf(myLocationCheck));
@@ -94,8 +89,9 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         if (i1.equals("android.net.wifi.SCAN_RESULTS") && scannow.equals("yes")) {
 
+            Log.e("state:","scanning");
+
             List<ScanResult> wifiList = mainWifi.getScanResults();
-            Log.e("wifilist", wifiList.toString());
             String locationFound="0";
 
             for (int i = 0; i < wifiList.size(); i++) {
@@ -107,13 +103,6 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
                     Log.e("state","not connected but I found you");
                 }
 
-                Log.e("scan", x.BSSID);
-                Log.e("WifiBroadCastReceiver-SSID", x.SSID);
-                Log.e("WifiBroadCastReceiver-BSSID", x.BSSID);
-                Log.e("WifiBroadCastReceiver-capabilities", x.capabilities);
-                Log.e("WifiBroadCastReceiver-frequency", Integer.toString(x.frequency));
-                Log.e("WifiBroadCastReceiver-level", Integer.toString(x.level));
-                Log.e("WifiBroadCastReceiver-timestamp", Long.toString(x.timestamp));
                 long unixTime = System.currentTimeMillis() / 1000L;
 
                 String data = "SSID=" +
@@ -126,8 +115,6 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
                         "&userid=" + sph.getSharedPreferenceString(context, "userid", "0")+
                         "&lat="+lats +
                         "&lng="+lngs;
-
-                Log.e("getlatlng?", data);
 
                 String url = "http://www.scoreme.us/a.php";
 
@@ -149,6 +136,9 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         //this checks for supplicant state change
 
         if(i1.equals("android.net.wifi.supplicant.STATE_CHANGE")){
+
+            Log.e("state:","supplicant state change");
+
             String url = "http://www.scoreme.us/a.php";
             String ts = String.valueOf(System.currentTimeMillis() / 1000L);
             String userid = sph.getSharedPreferenceString(context, "userid", "0");
@@ -188,7 +178,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         if (i1.equals("android.net.conn.CONNECTIVITY_CHANGE")) {
 
-            Toast.makeText(context, "wifi change detected...", Toast.LENGTH_SHORT).show();
+            Log.e("state:","connectivity state change");
 
             Intent resultIntent = new Intent(context, webview.class);
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
