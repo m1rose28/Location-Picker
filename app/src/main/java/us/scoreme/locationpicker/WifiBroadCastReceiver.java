@@ -28,6 +28,9 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
     public String lngs;
     public locationData locationData=new locationData();
     public String ts = String.valueOf(System.currentTimeMillis() / 1000L);
+    public int scanInterval=60;
+    public String mynet="none";
+    public String T=this.getClass().getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -37,7 +40,6 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         String bundleDetails;
         String myLocation = sph.getSharedPreferenceString(context, "myLocation", "unknown");
         String scannow = sph.getSharedPreferenceString(context, "scannow", "0");
-        Log.e("test",i1+":"+scannow);
 
         if(bundle!=null){
             for (String key : bundle.keySet()) {
@@ -58,7 +60,8 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         if(state1.equals("CONNECTED") && type.equals("WIFI")){
             WifiInfo wifinfo = mainWifi.getConnectionInfo();
-            String mynet = wifinfo.getSSID();
+            mynet = wifinfo.getSSID();
+            scanInterval=60*15;
             if(!myLocation.equals(mynet)){
                 sph.setSharedPreferenceString(context, "myLocation", mynet);
                 x1=x1+"welcometo:"+mynet;
@@ -70,8 +73,8 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             myLocationCheck++;
             sph.setSharedPreferenceString(context, "myLocationCheck", String.valueOf(myLocationCheck));
             x1=x1+"seeya?";
+            scanInterval=60;
         }
-
 
         //get last known location data for context
         LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
@@ -83,19 +86,39 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             lats = String.valueOf(location1.getLatitude());
             lngs = String.valueOf(location1.getLongitude());
         } else {
-            Log.e("no location", "rats");
+            Log.e(T, "no location: rats");
             lats="0";
             lngs="0";
         }
+
+        // this is logic to use if the scan should happen again...
+
+        String lastScanTimeString = sph.getSharedPreferenceString(context, "scantime", "0");
+
+        int elapsedTime = 0;
+
+        if (!lastScanTimeString.equals("0")) {
+            int lastScanTimeLong = Integer.valueOf(lastScanTimeString);
+            int timeNowLong = Integer.valueOf(ts);
+            elapsedTime = timeNowLong - lastScanTimeLong;
+        }
+        if (elapsedTime > scanInterval) {
+            sph.setSharedPreferenceString(context, "scannow", "0");
+            sph.setSharedPreferenceString(context, "scantime", ts);
+            elapsedTime=0;
+            Log.e(T,"resetting to zero and getting scan. next scan in "+String.valueOf(scanInterval));
+        }
+
+        Log.e(T,i1+":"+"scaninterval:"+scanInterval+":elapsed time:"+elapsedTime);
+
 
         //if the intent has scan results go ahead and get that
 
         if (i1.equals("android.net.wifi.SCAN_RESULTS") && scannow.equals("0")){
 
             sph.setSharedPreferenceString(context, "scannow", "1");
-            sph.setSharedPreferenceString(context, "scantime", ts);
 
-            Log.e("state:","scanning");
+            Log.e(T,"recording scan");
 
             List<ScanResult> wifiList = mainWifi.getScanResults();
             String locationFound="0";
@@ -106,7 +129,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
                 if(x.BSSID.equals(myLocation)){
                     locationFound="1";
-                    Log.e("state","not connected but I found you");
+                    Log.e(T,"not connected but I found you");
                 }
 
                 long unixTime = System.currentTimeMillis() / 1000L;
@@ -136,54 +159,12 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
             if(locationFound.equals("0")){
                 sph.setSharedPreferenceString(context, "myLocation", "unknown");
-                Log.e("state","looks like you really exited");
+                //Log.e(T,"looks like you really exited");
             }
 
         }
 
-        // this is logic to use if the scan should happen again...
-
-        String lastScanTimeString = sph.getSharedPreferenceString(context, "scantime", "0");
-
-        int elapsedTime = 0;
-
-        if (!lastScanTimeString.equals("0")) {
-            int lastScanTimeLong = Integer.valueOf(lastScanTimeString);
-            int timeNowLong = Integer.valueOf(ts);
-            elapsedTime = timeNowLong - lastScanTimeLong;
-        }
-        if (elapsedTime > 60) {
-            sph.setSharedPreferenceString(context, "scannow", "0");
-            Log.e("time:","resetting to zero");
-        }
-
-        //this checks for supplicant state change
-
-        if(i1.equals("android.net.wifi.supplicant.STATE_CHANGE")){
-
-            Log.e("state:","supplicant state change");
-
-            String url = "http://www.scoreme.us/a.php";
-            String ts = String.valueOf(System.currentTimeMillis() / 1000L);
-            String userid = sph.getSharedPreferenceString(context, "userid", "0");
-
-            String data = "userid=" + userid +
-                    "&ts=" + ts +
-                    "&changeevent=" + URLEncoder.encode(i1)+URLEncoder.encode(" supplicant change ")+
-                    "&lat="+lats +
-                    "&lng="+lngs;
-
-            Intent myServiceIntent = new Intent(context, httpRequest2.class);
-            myServiceIntent.putExtra("event", "change");
-            myServiceIntent.putExtra("data", data);
-            myServiceIntent.putExtra("url", url);
-            context.startService(myServiceIntent);
-
-        }
-
         if (i1.equals("android.net.conn.CONNECTIVITY_CHANGE")) {
-
-            Log.e("state:","connectivity state change");
 
             Intent resultIntent = new Intent(context, webview.class);
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

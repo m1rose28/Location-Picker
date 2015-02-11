@@ -3,7 +3,6 @@ package us.scoreme.locationpicker;
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,21 +14,13 @@ import java.util.List;
  */
 public class locationData {
 
-    public double lat;
-    public double lng;
     public double latdiff;
     public double lngdiff;
-    public String mylocation;
-    public String ssid;
-    public List<ScanResult> bssid;
-    public double match=0;
     public String name;
     public String addressList;
     public Integer id;
     public String userid;
     public JSONArray addresses;
-    public JSONArray bssidlist;
-    public JSONObject bssidobject;
 
     public String getUserID(Context c){
         userid=sph.getSharedPreferenceString(c,"userid","0");
