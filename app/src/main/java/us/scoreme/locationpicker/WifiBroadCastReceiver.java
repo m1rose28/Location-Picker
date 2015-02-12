@@ -30,6 +30,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
     public String ts = String.valueOf(System.currentTimeMillis() / 1000L);
     public int scanInterval=60;
     public String mynet="none";
+    public String mynetb="none";
     public String T=this.getClass().getSimpleName();
 
     @Override
@@ -61,6 +62,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         if(state1.equals("CONNECTED") && type.equals("WIFI")){
             WifiInfo wifinfo = mainWifi.getConnectionInfo();
             mynet = wifinfo.getSSID();
+            mynetb = wifinfo.getBSSID();
             scanInterval=60*15;
             if(!myLocation.equals(mynet)){
                 sph.setSharedPreferenceString(context, "myLocation", mynet);
@@ -188,6 +190,8 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             String data = "userid=" + userid +
                     "&ts=" + ts +
                     "&changeevent=" + URLEncoder.encode(i1) + URLEncoder.encode(x1)+
+                    "&SSID="+ URLEncoder.encode(mynet) +
+                    "&BSSID="+ URLEncoder.encode(mynetb) +
                     "&lat="+lats +
                     "&lng="+lngs;
 
