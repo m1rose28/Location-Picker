@@ -24,8 +24,8 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
     WifiManager mainWifi;
     ConnectivityManager connection;
-    public String lats;
-    public String lngs;
+    public String lats="0";
+    public String lngs="0";
     public locationData locationData=new locationData();
     public String ts = String.valueOf(System.currentTimeMillis() / 1000L);
     public int scanInterval=60;
@@ -62,6 +62,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         if(state1.equals("CONNECTED") && type.equals("WIFI")){
             WifiInfo wifinfo = mainWifi.getConnectionInfo();
             mynet = wifinfo.getSSID();
+            mynet = mynet.replace("\"", "");
             mynetb = wifinfo.getBSSID();
             scanInterval=60*15;
             if(!myLocation.equals(mynet)){
@@ -89,8 +90,6 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             lngs = String.valueOf(location1.getLongitude());
         } else {
             Log.e(T, "no location: rats");
-            lats="0";
-            lngs="0";
         }
 
         // this is logic to use if the scan should happen again...
@@ -121,6 +120,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             sph.setSharedPreferenceString(context, "scannow", "1");
 
             Log.e(T,"recording scan");
+            long unixTime = System.currentTimeMillis() / 1000L;
 
             List<ScanResult> wifiList = mainWifi.getScanResults();
             String locationFound="0";
@@ -134,18 +134,16 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
                     Log.e(T,"not connected but I found you");
                 }
 
-                long unixTime = System.currentTimeMillis() / 1000L;
-
-                String data = "SSID=" +
-                        URLEncoder.encode(x.SSID) + "&BSSID=" +
-                        URLEncoder.encode(x.BSSID) + "&capabilities=" +
-                        URLEncoder.encode(x.capabilities) + "&frequency=" +
-                        URLEncoder.encode(Integer.toString(x.frequency)) + "&level=" +
-                        URLEncoder.encode(Integer.toString(x.level)) + "&ts=" +
-                        URLEncoder.encode(Long.toString(unixTime)) +
+                String data = "SSID=" +URLEncoder.encode(x.SSID) +
+                        "&BSSID=" + URLEncoder.encode(x.BSSID) +
+                        "&capabilities=" + URLEncoder.encode(x.capabilities) +
+                        "&frequency=" + URLEncoder.encode(Integer.toString(x.frequency)) +
+                        "&level=" + URLEncoder.encode(Integer.toString(x.level)) +
+                        "&ts=" + URLEncoder.encode(Long.toString(unixTime)) +
                         "&userid=" + sph.getSharedPreferenceString(context, "userid", "0")+
                         "&lat="+lats +
-                        "&lng="+lngs;
+                        "&lng="+lngs +
+                        "&mynet="+URLEncoder.encode(mynet);
 
                 String url = "http://www.scoreme.us/a.php";
 
@@ -157,7 +155,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             }
 
             WifiInfo wifinfo = mainWifi.getConnectionInfo();
-            locationData.addValidLocation(context,Double.valueOf(lats),Double.valueOf(lngs),wifinfo.getSSID(),wifiList);
+            locationData.addValidLocation(context, Double.valueOf(lats), Double.valueOf(lngs), wifinfo.getSSID(), wifiList);
 
             if(locationFound.equals("0")){
                 sph.setSharedPreferenceString(context, "myLocation", "unknown");

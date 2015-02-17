@@ -52,6 +52,8 @@ public class alarm extends BroadcastReceiver {
             if(wifiInfo.getBSSID()!=null){
                 BSSID = wifiInfo.getBSSID();
                 SSID = wifiInfo.getSSID();
+                SSID = SSID.replace("\"", "");
+
                 //Log.e("wifi state",supState+":"+BSSID);
                 //Log.e("wifi state",supState+":"+SSID);
             }

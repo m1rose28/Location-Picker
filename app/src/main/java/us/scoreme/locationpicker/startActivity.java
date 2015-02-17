@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -14,6 +15,8 @@ public class startActivity extends Activity implements httpReply {
     private PendingIntent pendingIntent;
     public String userid;
     playClip p1=new playClip();
+    WifiManager mainWifi;
+
 
     @Override
     public void updateActivity(String result){
@@ -58,7 +61,10 @@ public class startActivity extends Activity implements httpReply {
     }
 
     public void startScan(View view) {
-        p1.playClip("did it work");
+        mainWifi = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+        sph.setSharedPreferenceString(this, "scannow", "0");
+        mainWifi.startScan();
+        Toast.makeText(this, "Scanning hoss...", Toast.LENGTH_SHORT).show();
     }
 
 

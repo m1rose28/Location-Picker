@@ -3,6 +3,7 @@ package us.scoreme.locationpicker;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -34,7 +35,7 @@ public class httpRequest2 extends IntentService {
         url= intent.getStringExtra("url");
         event=intent.getStringExtra("event");
         newurl=url+"?event="+event+"&"+data;
-        //Log.e("newurl:",newurl);
+        Log.e("newurl:", newurl);
         new newrequest().execute(newurl);
     }
 
