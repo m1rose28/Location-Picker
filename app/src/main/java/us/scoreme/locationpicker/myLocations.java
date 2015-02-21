@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class startApp extends ListActivity implements httpReply {
+public class myLocations extends ListActivity implements httpReply {
 
     private PendingIntent pendingIntent;
 
@@ -36,15 +36,15 @@ public class startApp extends ListActivity implements httpReply {
     }
 
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         locationData locationData=new locationData();
-
-        super.onCreate(savedInstanceState);
         userid=locationData.getUserID(this);
+
         addressList=locationData.getLocations(this);
 
         if(userid.equals("0")){
-            Intent intent = new Intent(this, coverActivity.class);
+            Intent intent = new Intent(this, loginScreen.class);
             startActivity(intent);
         }
 

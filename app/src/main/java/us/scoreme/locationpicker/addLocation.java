@@ -104,7 +104,7 @@ public class addLocation extends FragmentActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.delete:
-                Intent intent = new Intent(getApplicationContext(), startApp.class);
+                Intent intent = new Intent(getApplicationContext(), myLocations.class);
                 intent.putExtra("name",name);
                 intent.putExtra("mode","delete");
                 startActivity(intent);
@@ -190,7 +190,7 @@ public class addLocation extends FragmentActivity {
                                 // edit text
                                 name = userInput.getText().toString();
                                 if (name.length() > 0) {
-                                    Intent intent = new Intent(getApplicationContext(), startApp.class);
+                                    Intent intent = new Intent(getApplicationContext(), myLocations.class);
                                     intent.putExtra("userid",userid);
                                     intent.putExtra("name",name);
                                     intent.putExtra("lat",String.valueOf(newlat));

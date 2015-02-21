@@ -9,29 +9,27 @@ import android.location.LocationManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.net.URLEncoder;
 
-public class alarm extends BroadcastReceiver {
+public class repeatWifiScan extends BroadcastReceiver {
 
     WifiManager wifiManager;
-    public String connect;
     public String BSSID;
     public String SSID;
     public String lats;
     public String lngs;
+    public String T=this.getClass().getSimpleName();
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Toast.makeText(context, "Geo-wifi ping posted hoss!", Toast.LENGTH_LONG).show();
-
+        Log.e(T,"doing a scheduled alarm geo ssid conntected update");
         //get last known location data for context
         LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
-        Log.e("provider", provider);
         Location location1 = locationManager.getLastKnownLocation(provider);
 
         if (null != location1) {
@@ -53,9 +51,6 @@ public class alarm extends BroadcastReceiver {
                 BSSID = wifiInfo.getBSSID();
                 SSID = wifiInfo.getSSID();
                 SSID = SSID.replace("\"", "");
-
-                //Log.e("wifi state",supState+":"+BSSID);
-                //Log.e("wifi state",supState+":"+SSID);
             }
             else {
                 //Log.e("wifi state","not connected");
@@ -65,7 +60,6 @@ public class alarm extends BroadcastReceiver {
         }
 
         String network = String.valueOf(wifiInfo.getNetworkId());
-        //Log.e("network",network);
         long unixTime = System.currentTimeMillis() / 1000L;
 
         String data = "SSID=" + URLEncoder.encode(SSID) +
@@ -74,8 +68,6 @@ public class alarm extends BroadcastReceiver {
                 "&lat="+lats +
                 "&lng="+lngs +
                 "&ts=" + URLEncoder.encode(Long.toString(unixTime));
-
-        //Log.e("senddata", data);
 
         String url = "http://www.scoreme.us/a.php";
 

@@ -94,15 +94,14 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         // this is logic to use if the scan should happen again...
 
-        String lastScanTimeString = sph.getSharedPreferenceString(context, "scantime", "0");
+        String lastScanTimeString = sph.getSharedPreferenceString(context, "scantime", "1");
 
         int elapsedTime = 0;
 
-        if (!lastScanTimeString.equals("0")) {
-            int lastScanTimeLong = Integer.valueOf(lastScanTimeString);
-            int timeNowLong = Integer.valueOf(ts);
-            elapsedTime = timeNowLong - lastScanTimeLong;
-        }
+        int lastScanTimeLong = Integer.valueOf(lastScanTimeString);
+        int timeNowLong = Integer.valueOf(ts);
+        elapsedTime = timeNowLong - lastScanTimeLong;
+
         if (elapsedTime > scanInterval) {
             sph.setSharedPreferenceString(context, "scannow", "0");
             sph.setSharedPreferenceString(context, "scantime", ts);
@@ -112,14 +111,12 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         Log.e(T,i1+":"+"scaninterval:"+scanInterval+":elapsed time:"+elapsedTime);
 
-
         //if the intent has scan results go ahead and get that
 
         if (i1.equals("android.net.wifi.SCAN_RESULTS") && scannow.equals("0")){
 
             sph.setSharedPreferenceString(context, "scannow", "1");
 
-            Log.e(T,"recording scan");
             long unixTime = System.currentTimeMillis() / 1000L;
 
             List<ScanResult> wifiList = mainWifi.getScanResults();
@@ -159,14 +156,13 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
             if(locationFound.equals("0")){
                 sph.setSharedPreferenceString(context, "myLocation", "unknown");
-                //Log.e(T,"looks like you really exited");
             }
 
         }
 
         if (i1.equals("android.net.conn.CONNECTIVITY_CHANGE")) {
 
-            Intent resultIntent = new Intent(context, webview.class);
+            Intent resultIntent = new Intent(context, viewData.class);
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             PendingIntent pending = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -199,8 +195,6 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             myServiceIntent.putExtra("url", url);
             context.startService(myServiceIntent);
 
-            Intent myServiceIntent1 = new Intent(context, playClipIntent.class);
-            myServiceIntent1.putExtra("toSpeak", "data changed");
         }
     }
 }

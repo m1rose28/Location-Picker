@@ -4,21 +4,19 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 /**
  * Created by lynnprose16 on 1/10/15.
  */
-public class webview extends Activity {
+public class viewData extends Activity {
 
     private WebView webView;
 
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.webview1);
+        setContentView(R.layout.view_data);
         String userid=sph.getSharedPreferenceString(this,"userid","0");
-        Toast.makeText(this, userid, Toast.LENGTH_SHORT).show();
 
         webView = (WebView) findViewById(R.id.mywebview);
         webView.getSettings().setJavaScriptEnabled(true);

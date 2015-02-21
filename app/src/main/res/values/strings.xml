@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Location Picker</string>
-    <string name="title_activity_maps">Where art thou?</string>
-    <string name="startapp">My Experiments</string>
-    <string name="wifidemo">Wifiscan (listen up)</string>
-    <string name="glogin">G+ Sign in</string>
-    <string name="webview">Data</string>
+    <string name="app_name">Wifi Magic</string>
+    <string name="startapp">Wifi Magic</string>
+    <string name="glogin">Wifi Magic</string>
+    <string name="webview">View Data</string>
     <string name="addLocation">Add a location</string>
     <string name="delete">Delete</string>
+    <string name="whereamI">Where Am I?</string>
 
     <string name="circles_title">Visible circles:</string>
     <string name="sign_out_button_name">Sign out</string>

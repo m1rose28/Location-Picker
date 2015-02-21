@@ -18,7 +18,7 @@ class httpRequest extends AsyncTask<String, String, String> {
 
     private httpReply httpReply;
 
-    public httpRequest(httpReply httpReply){
+    public httpRequest(httpReply httpReply) {
         this.httpReply = httpReply;
     }
 
@@ -30,12 +30,12 @@ class httpRequest extends AsyncTask<String, String, String> {
         try {
             response = httpclient.execute(new HttpGet(uri[0]));
             StatusLine statusLine = response.getStatusLine();
-            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+            if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 response.getEntity().writeTo(out);
                 out.close();
                 responseString = out.toString();
-            } else{
+            } else {
                 //Closes the connection.
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
@@ -51,9 +51,13 @@ class httpRequest extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        Log.e("httprequest",result);
-        httpReply.updateActivity(result);
+        try {
+            httpReply.updateActivity(result);
+            Log.e("httprequest", result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            httpReply.updateActivity("no connection");
+        }
 
     }
-
 }

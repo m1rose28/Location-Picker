@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * Demonstrates Google+ Sign-In and usage of the Google+ APIs to retrieve a
  * users profile information.
  */
-public class gloginActivity extends FragmentActivity implements
+public class logout extends FragmentActivity implements
         ConnectionCallbacks, OnConnectionFailedListener,
         ResultCallback<People.LoadPeopleResult>, View.OnClickListener {
 

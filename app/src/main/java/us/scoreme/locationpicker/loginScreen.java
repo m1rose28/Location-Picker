@@ -30,7 +30,7 @@ import com.google.android.gms.plus.model.people.Person;
  * Demonstrates Google+ Sign-In and usage of the Google+ APIs to retrieve a
  * users profile information.
  */
-public class coverActivity extends FragmentActivity implements
+public class loginScreen extends FragmentActivity implements
         ConnectionCallbacks, OnConnectionFailedListener,
         ResultCallback<People.LoadPeopleResult>, View.OnClickListener {
 
@@ -214,7 +214,7 @@ public class coverActivity extends FragmentActivity implements
         mSignInProgress = STATE_DEFAULT;
 
         //start the main application...
-        Intent intent = new Intent(this, startActivity.class);
+        Intent intent = new Intent(this, homeScreen.class);
         startActivity(intent);
     }
 
