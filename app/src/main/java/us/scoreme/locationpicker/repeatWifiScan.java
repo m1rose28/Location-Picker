@@ -21,7 +21,6 @@ public class repeatWifiScan extends BroadcastReceiver {
     public String lngs;
     public String T=this.getClass().getSimpleName();
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
 
