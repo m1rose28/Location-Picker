@@ -20,6 +20,7 @@ public class repeatWifiScan extends BroadcastReceiver {
     public String lats;
     public String lngs;
     public String T=this.getClass().getSimpleName();
+    public String isConnected="0";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -50,11 +51,12 @@ public class repeatWifiScan extends BroadcastReceiver {
                 BSSID = wifiInfo.getBSSID();
                 SSID = wifiInfo.getSSID();
                 SSID = SSID.replace("\"", "");
+                isConnected="1";
             }
             else {
                 //Log.e("wifi state","not connected");
-                BSSID="nada";
-                SSID="nada";
+                BSSID="none";
+                SSID="none";
             }
         }
 
@@ -63,6 +65,9 @@ public class repeatWifiScan extends BroadcastReceiver {
 
         String data = "SSID=" + URLEncoder.encode(SSID) +
                 "&BSSID=" + URLEncoder.encode(BSSID) +
+                "&isConnected=" + URLEncoder.encode(isConnected) +
+                "&SSIDConnection=" + URLEncoder.encode(SSID) +
+                "&BSSIDConnection=" + URLEncoder.encode(BSSID) +
                 "&userid=" + sph.getSharedPreferenceString(context, "userid", "0")+
                 "&lat="+lats +
                 "&lng="+lngs +

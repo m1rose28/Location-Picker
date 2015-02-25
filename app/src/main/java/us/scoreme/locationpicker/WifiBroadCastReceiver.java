@@ -32,6 +32,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
     public String mynet="none";
     public String mynetb="none";
     public String T=this.getClass().getSimpleName();
+    public String isConnected="0";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -64,6 +65,7 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             mynet = wifinfo.getSSID();
             mynet = mynet.replace("\"", "");
             mynetb = wifinfo.getBSSID();
+            isConnected="1";
             scanInterval=60*15;
             if(!myLocation.equals(mynet)){
                 sph.setSharedPreferenceString(context, "myLocation", mynet);
@@ -133,14 +135,16 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
                 String data = "SSID=" +URLEncoder.encode(x.SSID) +
                         "&BSSID=" + URLEncoder.encode(x.BSSID) +
+                        "&isConnected=" + URLEncoder.encode(isConnected) +
+                        "&SSIDConnection=" + URLEncoder.encode(mynet) +
+                        "&BSSIDConnection=" + URLEncoder.encode(mynetb) +
                         "&capabilities=" + URLEncoder.encode(x.capabilities) +
                         "&frequency=" + URLEncoder.encode(Integer.toString(x.frequency)) +
                         "&level=" + URLEncoder.encode(Integer.toString(x.level)) +
                         "&ts=" + URLEncoder.encode(Long.toString(unixTime)) +
                         "&userid=" + sph.getSharedPreferenceString(context, "userid", "0")+
                         "&lat="+lats +
-                        "&lng="+lngs +
-                        "&mynet="+URLEncoder.encode(mynet);
+                        "&lng="+lngs;
 
                 String url = "http://www.scoreme.us/a.php";
 
@@ -186,8 +190,14 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
                     "&changeevent=" + URLEncoder.encode(i1) + URLEncoder.encode(x1)+
                     "&SSID="+ URLEncoder.encode(mynet) +
                     "&BSSID="+ URLEncoder.encode(mynetb) +
+                    "&isConnected=" + URLEncoder.encode(isConnected) +
+                    "&SSIDConnection=" + URLEncoder.encode(mynet) +
+                    "&BSSIDConnection=" + URLEncoder.encode(mynetb) +
                     "&lat="+lats +
                     "&lng="+lngs;
+
+            mainWifi.startScan();
+            sph.setSharedPreferenceString(context, "scannow", "0");
 
             Intent myServiceIntent = new Intent(context, httpRequest2.class);
             myServiceIntent.putExtra("event", "change");
