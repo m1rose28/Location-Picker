@@ -8,6 +8,8 @@
     <string name="addLocation">Add a location</string>
     <string name="delete">Delete</string>
     <string name="whereamI">Where Am I?</string>
+    <string name="addnewLocation">Add new location</string>
+    <string name="addnewLocationMap">Select your location</string>
 
     <string name="circles_title">Visible circles:</string>
     <string name="sign_out_button_name">Sign out</string>

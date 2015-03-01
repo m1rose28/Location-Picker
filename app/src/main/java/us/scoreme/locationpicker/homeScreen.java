@@ -52,8 +52,8 @@ public class homeScreen extends Activity implements httpReply {
     }
 
 
-    public void myLocations(View view) {
-        Intent intent = new Intent(this, myLocations.class);
+    public void addNewLocation(View view) {
+        Intent intent = new Intent(this, addnewLocation.class);
         startActivity(intent);
     }
 
@@ -64,11 +64,6 @@ public class homeScreen extends Activity implements httpReply {
         Toast.makeText(this, "Scanning for wifi...", Toast.LENGTH_SHORT).show();
     }
 
-
-    public void startloginActivity(View view) {
-        Intent intent = new Intent(this, logout.class);
-        startActivity(intent);
-    }
 
     public void coverActivity(View view) {
         Intent intent = new Intent(this, loginScreen.class);

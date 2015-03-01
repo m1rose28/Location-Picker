@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Location name"
+        android:width="200dp"
+        android:id="@+id/textView3"
+        android:layout_marginTop="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="200dp"
+        android:layout_below="@id/textView3"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/locationname" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="200dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="40dp"
+        android:text="Type of location"
+        android:id="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/locationname" />
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:width="200dp"
+        android:id="@+id/radiogroup"
+        android:layout_centerHorizontal="true"
+        android:checkedButton="@+id/general"
+        android:layout_below="@+id/textView4">
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="General location"
+        android:id="@+id/general"
+        android:onClick="onRadioButtonClicked"/>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Micro location"
+        android:width="200dp"
+        android:onClick="onRadioButtonClicked"
+        android:id="@+id/microlocation"
+        android:layout_below="@+id/general"
+        android:layout_alignStart="@+id/general" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="200dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="30dp"
+        android:text="Wifi:"
+        android:id="@+id/connection"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/radiogroup" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#1B60FF"
+        android:textColor="#ffffff"
+        android:width="200dp"
+        android:text="Next"
+        android:onClick="addnewLocationMap"
+        android:id="@+id/nextbutton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="113dp" />
+
+</RelativeLayout>

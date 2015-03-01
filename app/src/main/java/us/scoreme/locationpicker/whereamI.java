@@ -23,7 +23,7 @@ public class whereamI extends Activity {
         webView = (WebView) findViewById(R.id.mywebview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new myWebViewClient());
-        webView.loadUrl("http://www.scoreme.us/a.php?view=6&userid="+userid);
+        webView.loadUrl("http://www.scoreme.us/wifimagicmobile.php?userid="+userid);
 
     }
 
