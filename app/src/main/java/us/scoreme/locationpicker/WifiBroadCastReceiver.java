@@ -119,6 +119,12 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
             sph.setSharedPreferenceString(context, "scannow", "1");
 
+            // this code snippet looks to see if this is a new group getting setup. if so, it marks the mynet for this series only...
+            String newgroup=sph.getSharedPreferenceString(context, "newscangroup", "0");
+            if(!newgroup.equals("0")){
+                mynet=newgroup;
+            }
+
             long unixTime = System.currentTimeMillis() / 1000L;
 
             List<ScanResult> wifiList = mainWifi.getScanResults();
@@ -127,11 +133,6 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             for (int i = 0; i < wifiList.size(); i++) {
 
                 ScanResult x = wifiList.get(i);
-
-                if(x.BSSID.equals(myLocation)){
-                    locationFound="1";
-                    Log.e(T,"not connected but I found you");
-                }
 
                 String data = "SSID=" +URLEncoder.encode(x.SSID) +
                         "&BSSID=" + URLEncoder.encode(x.BSSID) +

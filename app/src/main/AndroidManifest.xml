@@ -52,6 +52,11 @@
             android:parentActivityName=".addnewLocation" >
         </activity>
         <activity
+            android:name=".addnewLocationConfirm"
+            android:label="@string/addnewLocation"
+            android:parentActivityName=".homeScreen" >
+        </activity>
+        <activity
             android:name=".addLocation"
             android:label="@string/addLocation"
             android:parentActivityName=".myLocations" >

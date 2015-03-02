@@ -69,7 +69,9 @@ public class httpRequest2 extends IntentService {
 
         @Override
         protected void onPostExecute(String result) {
+
             super.onPostExecute(result);
+
         }
 
     }

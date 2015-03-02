@@ -23,15 +23,17 @@ public class addnewLocation extends Activity {
     public String T=this.getClass().getSimpleName();
     EditText locationame;
     ConnectivityManager connection;
-    public String mynet="none";
-    public String mynetb="";
-
+    public String mynet="0";
+    public String mynetb="0";
+    public String ts;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         locationData locationData=new locationData();
         userid=locationData.getUserID(this);
+        long unixTime = System.currentTimeMillis() / 1000L;
+        ts = String.valueOf(unixTime);
 
         Log.e("T", userid);
 
@@ -40,11 +42,16 @@ public class addnewLocation extends Activity {
             startActivity(intent);
         }
 
+        sph.setSharedPreferenceString(this, "newscangroup", ts);
         sph.setSharedPreferenceString(this, "locationtype", "general");
-        sph.setSharedPreferenceString(this, "newwifi", "none");
-        sph.setSharedPreferenceString(this, "newwifibssid", "none");
+        sph.setSharedPreferenceString(this, "newwifi", "0");
+        sph.setSharedPreferenceString(this, "newwifibssid", "0");
+        sph.setSharedPreferenceString(this, "scannow", "0");
+
         mainWifi = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         connection = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        mainWifi.startScan();
+
         final NetworkInfo activeNetwork = connection.getActiveNetworkInfo();
         NetworkInfo.State state=activeNetwork.getState();
         String state1=String.valueOf(state);
@@ -89,8 +96,8 @@ public class addnewLocation extends Activity {
 
     public void addnewLocationMap(View view) {
 
-        String locationtype= sph.getSharedPreferenceString(this, "locationtype", "0");
-        locationame   = (EditText)findViewById(R.id.locationname);
+        String locationtype=sph.getSharedPreferenceString(this, "locationtype", "general");
+        locationame = (EditText)findViewById(R.id.locationname);
         String name= locationame.getText().toString();
         sph.setSharedPreferenceString(this, "locationname", name);
         Log.e(T,name+locationtype+name.length());
@@ -99,12 +106,6 @@ public class addnewLocation extends Activity {
             Intent intent = new Intent(this, addnewLocationMap.class);
             startActivity(intent);
         }
-    }
-
-
-    public void coverActivity(View view) {
-        Intent intent = new Intent(this, loginScreen.class);
-        startActivity(intent);
     }
 
     @Override

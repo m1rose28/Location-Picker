@@ -144,6 +144,7 @@ public class addnewLocationMap extends FragmentActivity {
                 LatLng move = mMap.getCameraPosition().target;
                 newlat = move.latitude;
                 newlng = move.longitude;
+
             }
         });
 
@@ -166,6 +167,8 @@ public class addnewLocationMap extends FragmentActivity {
         sph.setSharedPreferenceString(this, "newlat", lat);
         sph.setSharedPreferenceString(this, "newlng", lng);
         Log.e("test",lat+lng);
+        Intent intent = new Intent(this, addnewLocationConfirm.class);
+        startActivity(intent);
     }
 
 

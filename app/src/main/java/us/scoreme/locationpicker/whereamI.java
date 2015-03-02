@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 /**
  * Created by markrose on 2/17/15.
@@ -18,7 +17,6 @@ public class whereamI extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_data);
         String userid=sph.getSharedPreferenceString(this,"userid","0");
-        Toast.makeText(this, userid, Toast.LENGTH_SHORT).show();
 
         webView = (WebView) findViewById(R.id.mywebview);
         webView.getSettings().setJavaScriptEnabled(true);

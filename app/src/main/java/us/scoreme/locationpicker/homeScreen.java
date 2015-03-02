@@ -18,7 +18,6 @@ public class homeScreen extends Activity implements httpReply {
     WifiManager mainWifi;
     public String T=this.getClass().getSimpleName();
 
-
     @Override
     public void updateActivity(String result){
         Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
@@ -29,6 +28,7 @@ public class homeScreen extends Activity implements httpReply {
 
         locationData locationData=new locationData();
         userid=locationData.getUserID(this);
+        sph.setSharedPreferenceString(this, "newscangroup", "0");
         scheduleAlarm();
 
         Log.e("T", userid);
