@@ -24,18 +24,5 @@
         android:layout_below="@+id/textView3"
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#1B60FF"
-        android:textColor="#ffffff"
-        android:width="200dp"
-        android:text="Next"
-        android:onClick="sendUrl"
-        android:id="@+id/nextbutton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="113dp" />
-
 
 </RelativeLayout>

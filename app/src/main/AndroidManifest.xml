@@ -64,7 +64,7 @@
         <activity
             android:name=".whereamI"
             android:label="@string/whereamI"
-            android:parentActivityName=".myLocations" >
+            android:parentActivityName=".homeScreen" >
         </activity>
         <activity
             android:name=".homeScreen"
