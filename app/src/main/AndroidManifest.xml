@@ -77,7 +77,6 @@
         </activity>
         <service
             android:name=".httpRequest2"/>
-        <receiver android:name=".repeatWifiScan"/>
         <receiver android:name=".WifiBroadCastReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

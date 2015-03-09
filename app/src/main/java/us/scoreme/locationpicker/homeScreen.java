@@ -1,7 +1,6 @@
 package us.scoreme.locationpicker;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -28,8 +27,6 @@ public class homeScreen extends Activity implements httpReply {
 
         locationData locationData=new locationData();
         userid=locationData.getUserID(this);
-        sph.setSharedPreferenceString(this, "newscangroup", "0");
-        scheduleAlarm();
 
         Log.e("T", userid);
 
@@ -42,15 +39,6 @@ public class homeScreen extends Activity implements httpReply {
 
     }
 
-    public void scheduleAlarm() {
-        Log.e(T,"alarmset");
-        Intent alarmIntent = new Intent(homeScreen.this, repeatWifiScan.class);
-        pendingIntent = PendingIntent.getBroadcast(homeScreen.this, 0, alarmIntent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval=1000*60*15; // every 15 minutes
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-    }
-
 
     public void addNewLocation(View view) {
         Intent intent = new Intent(this, addnewLocation.class);
@@ -59,16 +47,10 @@ public class homeScreen extends Activity implements httpReply {
 
     public void startScan(View view) {
         mainWifi = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
-        sph.setSharedPreferenceString(this, "scannow", "0");
         mainWifi.startScan();
         Toast.makeText(this, "Scanning for wifi...", Toast.LENGTH_SHORT).show();
     }
 
-
-    public void coverActivity(View view) {
-        Intent intent = new Intent(this, loginScreen.class);
-        startActivity(intent);
-    }
 
     public void viewdata(View view) {
         Intent intent = new Intent(this, viewData.class);
