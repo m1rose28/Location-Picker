@@ -37,6 +37,8 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
         String x1="";
         String bundleDetails;
         String userid = sph.getSharedPreferenceString(context, "userid", "0");
+        String scanlevel = sph.getSharedPreferenceString(context, "scanlevel", "-75");
+        Integer scanleveli = Integer.parseInt(scanlevel);
 
         if(bundle!=null){
             for (String key : bundle.keySet()) {
@@ -90,16 +92,20 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
             Log.e(T, "no location: rats");
         }
 
-        //let's go ahead and get scan results
+        //let's go ahead and get scan results (depending on scan level too)...
 
         List<ScanResult> wifiList = mainWifi.getScanResults();
 
         for (int i = 0; i < wifiList.size(); i++) {
             ScanResult x = wifiList.get(i);
-            if (x.level > -75){
+            if (x.level > scanleveli){
                 bssidlist = bssidlist + x.SSID + "|" + x.BSSID + "|" + x.level + "##";
             }
         }
+
+        // let's reset the scan level
+
+        sph.setSharedPreferenceString(context, "scanlevel", "-75");
 
         // let's post what we learned to the server
 

@@ -46,7 +46,7 @@ public class addnewLocation extends Activity {
         sph.setSharedPreferenceString(this, "locationtype", "general");
         sph.setSharedPreferenceString(this, "newwifi", "0");
         sph.setSharedPreferenceString(this, "newwifibssid", "0");
-        sph.setSharedPreferenceString(this, "scannow", "0");
+        sph.setSharedPreferenceString(this, "scanlevel", "-75");
 
         mainWifi = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         connection = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -85,11 +85,13 @@ public class addnewLocation extends Activity {
                 if (checked)
                     Log.e(T,"general");
                     sph.setSharedPreferenceString(this, "locationtype", "general");
-                    break;
+                    sph.setSharedPreferenceString(this, "scanlevel", "-75");
+                break;
             case R.id.microlocation:
                 if (checked)
                     Log.e(T,"microlocation");
-                    sph.setSharedPreferenceString(this, "locationtype", "microlocation");
+                sph.setSharedPreferenceString(this, "scanlevel", "-65");
+                sph.setSharedPreferenceString(this, "locationtype", "microlocation");
                 break;
         }
     }
