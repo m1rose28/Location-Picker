@@ -96,7 +96,9 @@ public class WifiBroadCastReceiver extends BroadcastReceiver {
 
         for (int i = 0; i < wifiList.size(); i++) {
             ScanResult x = wifiList.get(i);
-            bssidlist = bssidlist + x.SSID+"|"+x.BSSID + "|" + x.level + "##";
+            if (x.level < -75){
+                bssidlist = bssidlist + x.SSID + "|" + x.BSSID + "|" + x.level + "##";
+            }
         }
 
         // let's post what we learned to the server
