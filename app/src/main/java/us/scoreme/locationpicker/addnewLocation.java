@@ -90,7 +90,7 @@ public class addnewLocation extends Activity {
             case R.id.microlocation:
                 if (checked)
                     Log.e(T,"microlocation");
-                sph.setSharedPreferenceString(this, "scanlevel", "-65");
+                sph.setSharedPreferenceString(this, "scanlevel", "-60");
                 sph.setSharedPreferenceString(this, "locationtype", "microlocation");
                 break;
         }
